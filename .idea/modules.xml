@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ColorSudoku/ColorSudoku.iml" filepath="$PROJECT_DIR$/ColorSudoku/ColorSudoku.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sk.tuke.kpi.kp.colorsudoku/ColorSudoku.iml" filepath="$PROJECT_DIR$/sk.tuke.kpi.kp.colorsudoku/ColorSudoku.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/gamestudio-4672.iml" filepath="$PROJECT_DIR$/.idea/gamestudio-4672.iml" />
     </modules>
   </component>
