@@ -1,11 +1,27 @@
 package sk.tuke.kpi.kp.colorsudoku.core;
 
-import java.awt.*;
+
 
 public class EmptyTile extends Tile{
-    private Color hiddenColor;
-    public EmptyTile(Color tileColor) {
-        super(Color.white);
-        hiddenColor=tileColor;
+    private TileState tileState;
+    private TileColor tileColor;
+    public EmptyTile() {
+        tileState = TileState.EMPTY;
+        tileColor = TileColor.WHITE;
+    }
+
+    @Override
+    public TileState getTileState() {
+        return tileState;
+    }
+
+    @Override
+    public void setTileState(TileState tileState) {
+        this.tileState = tileState;
+    }
+
+    @Override
+    public TileColor getTileColor() {
+        return TileColor.WHITE;
     }
 }
