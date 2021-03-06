@@ -16,4 +16,8 @@ public abstract class Tile {
     public TileColor getTileColor() {
         return tileColor;
     }
+
+    public void setTileColor(TileColor tileColor) {
+        this.tileColor = tileColor;
+    }
 }
