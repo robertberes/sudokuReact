@@ -8,16 +8,19 @@ import static sk.tuke.kpi.kp.colorsudoku.core.TileColor.*;
 public class Field {
 
 
-    private GameState state = GameState.PLAYING;
-    private Tile[][] finalTiles;
+    private GameState gameState = GameState.PLAYING;
+    private final Tile[][] finalTiles;
     private Tile[][] gameTiles;
-    private int difficulty = 1;
+    private int difficulty;
     private final int FIELD_DIMENSION = 9;
+    int numberOfFilledTiles;
 
 
-    public Field() {
+    public Field(int difficulty) {
+        this.difficulty = difficulty;
         finalTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         gameTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
+        numberOfFilledTiles = 81;
         generate();
     }
 
@@ -26,7 +29,7 @@ public class Field {
     public void generate(){
 
         generateFinalField();
-        hideColors(difficulty);
+        setDifficulty(difficulty);
         for (int i = 0; i < FIELD_DIMENSION; i++) {
             for (int j = 0; j < FIELD_DIMENSION; j++) {
                 char s = getColorChar(gameTiles[i][j].getTileColor());
@@ -46,13 +49,8 @@ public class Field {
                 if (finalTiles[i][j].getTileColor()==WHITE){
                     j=0;
                 }
-//                else {
-//                    continue;
-//                }
-
             }
         }
-
     }
 
     private void addColorsToField(int i, int j){
@@ -87,15 +85,13 @@ public class Field {
         listOfColorsWithoutDuplicates.clear();
         missingColors.clear();
         finalTiles[i][j] = new FilledTile(tileColor);
-
     }
-
 
     private List<TileColor> checkField(Tile[][] tiles, int row, int column){
         List<TileColor> colors;
         colors = getColorsFromRow(tiles, row, column);
-        getColorsFromColumn(tiles, row, column, colors);
-        getColorsFromBox(tiles, row, column, colors);
+        colors.addAll(getColorsFromColumn(tiles, row, column, colors));
+        colors.addAll(getColorsFromBox(tiles, row, column, colors));
         return colors;
     }
 
@@ -122,31 +118,45 @@ public class Field {
                 if (tiles[i][j] != null){
                     colors.add(tiles[i][j].getTileColor());
                 }
-//                else {
-//                    continue;
-//                }
             }
         }
         return colors;
     }
 
-    public void hideColors(int difficulty){
+    public void setDifficulty(int difficulty){
         gameTiles = finalTiles;
         int minimumWhiteTiles;
         int maximumWhiteTiles;
+
+        if (difficulty == 1) {
+            minimumWhiteTiles = 3;
+            maximumWhiteTiles = 5;
+            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+
+        }
+        if (difficulty == 2){
+            minimumWhiteTiles = 4;
+            maximumWhiteTiles = 6;
+            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+        }
+        if (difficulty == 3){
+            minimumWhiteTiles = 5;
+            maximumWhiteTiles = 7;
+            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+        }
+    }
+
+    public void hideColors(int minimumWhiteTiles, int maximumWhiteTiles){
         ArrayList<Integer> listOfColumnNumbers = new ArrayList<>();
         for (int i = 0; i < FIELD_DIMENSION; i++){
             listOfColumnNumbers.add(i);
         }
-        if (difficulty == 1) {
-            minimumWhiteTiles = 3;
-            maximumWhiteTiles = 5;
-            for (int i = 0; i < FIELD_DIMENSION; i++) {
-                int randomNumFromRange = minimumWhiteTiles + (int) (Math.random() * ((maximumWhiteTiles - minimumWhiteTiles) + 1));
-                Collections.shuffle(listOfColumnNumbers);
-                for (int j = 0; j < randomNumFromRange; j++) {
-                    gameTiles[i][listOfColumnNumbers.get(j)].setTileColor(WHITE);
-                }
+        for (int i = 0; i < FIELD_DIMENSION; i++) {
+            int randomNumFromRange = minimumWhiteTiles + (int) (Math.random() * ((maximumWhiteTiles - minimumWhiteTiles) + 1));
+            Collections.shuffle(listOfColumnNumbers);
+            numberOfFilledTiles -= randomNumFromRange;
+            for (int j = 0; j < randomNumFromRange; j++) {
+                gameTiles[i][listOfColumnNumbers.get(j)] = new EmptyTile();
             }
         }
     }
@@ -155,7 +165,27 @@ public class Field {
         return finalTiles;
     }
 
-    public GameState getState() {
-        return state;
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public boolean isSolved(){
+        return numberOfFilledTiles == 81;
+    }
+
+    public void fillTile(int row, int column, TileColor color){
+        if (gameState == GameState.PLAYING){
+            final Tile tile = gameTiles[row][column];
+            if (tile.getTileState() == TileState.EMPTY){
+                gameTiles[row][column] = new FilledTile(color);
+                numberOfFilledTiles++;
+                if (gameTiles[row][column].getTileColor() == finalTiles[row][column].getTileColor()){
+                    gameState = GameState.FAILED;
+                    return;
+                }
+                if (isSolved())
+                    gameState = GameState.SOLVED;
+            }
+        }
     }
 }

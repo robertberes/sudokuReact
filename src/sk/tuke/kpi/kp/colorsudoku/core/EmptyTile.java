@@ -15,13 +15,9 @@ public class EmptyTile extends Tile{
         return tileState;
     }
 
-    @Override
-    public void setTileState(TileState tileState) {
-        this.tileState = tileState;
-    }
 
     @Override
     public TileColor getTileColor() {
-        return TileColor.WHITE;
+        return tileColor;
     }
 }
