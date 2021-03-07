@@ -13,14 +13,18 @@ public class Field {
     private Tile[][] gameTiles;
     private int difficulty;
     private final int FIELD_DIMENSION = 9;
-    int numberOfFilledTiles;
+    private int numberOfFilledTiles;
+    private int numberOfHints;
 
 
     public Field(int difficulty) {
         this.difficulty = difficulty;
         finalTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         gameTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
-        numberOfFilledTiles = 81;
+        setNumberOfFilledTiles(81);
+        if(difficulty > 3) {
+            throw new IllegalArgumentException("Unsupported game difficulty");
+        }
         generate();
     }
 
@@ -123,6 +127,10 @@ public class Field {
         return colors;
     }
 
+    public int getDifficulty() {
+        return difficulty;
+    }
+
     public void setDifficulty(int difficulty){
         gameTiles = finalTiles;
         int minimumWhiteTiles;
@@ -131,17 +139,19 @@ public class Field {
         if (difficulty == 1) {
             minimumWhiteTiles = 3;
             maximumWhiteTiles = 5;
+            setNumberOfHints(5);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
-
         }
         if (difficulty == 2){
             minimumWhiteTiles = 4;
             maximumWhiteTiles = 6;
+            setNumberOfHints(4);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
         if (difficulty == 3){
             minimumWhiteTiles = 5;
             maximumWhiteTiles = 7;
+            setNumberOfHints(3);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
     }
@@ -154,7 +164,7 @@ public class Field {
         for (int i = 0; i < FIELD_DIMENSION; i++) {
             int randomNumFromRange = minimumWhiteTiles + (int) (Math.random() * ((maximumWhiteTiles - minimumWhiteTiles) + 1));
             Collections.shuffle(listOfColumnNumbers);
-            numberOfFilledTiles -= randomNumFromRange;
+            setNumberOfFilledTiles(getNumberOfFilledTiles() - randomNumFromRange);
             for (int j = 0; j < randomNumFromRange; j++) {
                 gameTiles[i][listOfColumnNumbers.get(j)] = new EmptyTile();
             }
@@ -170,22 +180,50 @@ public class Field {
     }
 
     public boolean isSolved(){
-        return numberOfFilledTiles == 81;
+        return gameTiles == finalTiles;
     }
 
     public void fillTile(int row, int column, TileColor color){
         if (gameState == GameState.PLAYING){
             final Tile tile = gameTiles[row][column];
-            if (tile.getTileState() == TileState.EMPTY){
+            if (tile.getTileState() == TileState.EMPTY || tile.getTileState() == TileState.NOTED){
                 gameTiles[row][column] = new FilledTile(color);
-                numberOfFilledTiles++;
+                setNumberOfFilledTiles(getNumberOfFilledTiles() + 1);
                 if (gameTiles[row][column].getTileColor() == finalTiles[row][column].getTileColor()){
                     gameState = GameState.FAILED;
-                    return;
+                    throw new IllegalArgumentException("Wrong tile color");
                 }
                 if (isSolved())
                     gameState = GameState.SOLVED;
             }
+            else {
+                setNumberOfHints(numberOfHints-1);
+                throw new IllegalArgumentException("Tile already filled");
+            }
         }
+    }
+
+    public int getNumberOfHints() {
+        return numberOfHints;
+    }
+
+    public void setNumberOfHints(int numberOfHints) {
+        this.numberOfHints = numberOfHints;
+    }
+
+    public int getNumberOfFilledTiles() {
+        return numberOfFilledTiles;
+    }
+
+    public void setNumberOfFilledTiles(int numberOfFilledTiles) {
+        this.numberOfFilledTiles = numberOfFilledTiles;
+    }
+
+    public Tile getGameTile(int row, int column){
+        return gameTiles[row][column];
+    }
+
+    public Tile[][] getField(){
+        return finalTiles;
     }
 }
