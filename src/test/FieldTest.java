@@ -6,6 +6,7 @@ import sk.tuke.kpi.kp.colorsudoku.core.GameState;
 import sk.tuke.kpi.kp.colorsudoku.core.Tile;
 import sk.tuke.kpi.kp.colorsudoku.core.TileColor;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,6 +69,18 @@ public class FieldTest {
 
     @Test
     public void checkSolved(){
-
+        Tile[][] finalField = field.getFinalField();
+        while (field.getGameState() != GameState.SOLVED){
+            for (int i = 0; i < DIMENSIONS; i++) {
+                for (int j = 0; j < DIMENSIONS; j++) {
+                    if (field.getGameTile(i, j).getTileColor() == TileColor.WHITE) {
+                        field.fillTile(i, j, finalField[i][j].getTileColor());
+                    }
+                }
+            }
+        }
+        assertTrue(field.getGameState() == GameState.SOLVED);
     }
+
+
 }
