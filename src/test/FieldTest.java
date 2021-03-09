@@ -6,19 +6,17 @@ import sk.tuke.kpi.kp.colorsudoku.core.GameState;
 import sk.tuke.kpi.kp.colorsudoku.core.Tile;
 import sk.tuke.kpi.kp.colorsudoku.core.TileColor;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FieldTest {
-    private Random randomGenerator = new Random();
-    private Field field;
+    private final Random randomGenerator = new Random();
+    private final Field field;
     private final int DIMENSIONS = 9;
-    private int difficulty;
 
     public FieldTest(){
-        difficulty = randomGenerator.nextInt(2) + 1;
+        int difficulty = randomGenerator.nextInt(2) + 1;
         field = new Field(difficulty);
     }
 
@@ -28,8 +26,8 @@ public class FieldTest {
         int incorrectDifficulty = 4;
         try {
             fieldWithIncorrectDifficulty = new Field(incorrectDifficulty);
-        } catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         assertTrue((fieldWithIncorrectDifficulty == null) || (fieldWithIncorrectDifficulty.getDifficulty() <= 3));
     }
@@ -59,11 +57,11 @@ public class FieldTest {
         } while (field.getGameTile(randomRow,randomColumn).getTileColor() != TileColor.WHITE);
         try {
             field.fillTile(randomRow,randomColumn,TileColor.RED);
-        } catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        assertTrue(field.getGameState()== GameState.FAILED);
+        assertSame(field.getGameState(), GameState.FAILED);
 
     }
 
@@ -79,7 +77,7 @@ public class FieldTest {
                 }
             }
         }
-        assertTrue(field.getGameState() == GameState.SOLVED);
+        assertSame(field.getGameState(), GameState.SOLVED);
     }
 
 

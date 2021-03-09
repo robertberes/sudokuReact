@@ -12,8 +12,8 @@ public class Field {
 
     private GameState gameState = GameState.PLAYING;
     private final Tile[][] finalTiles;
-    private Tile[][] gameTiles;
-    private int difficulty;
+    private final Tile[][] gameTiles;
+    private final int difficulty;
     private final int FIELD_DIMENSION = 9;
     private int numberOfFilledTiles;
     private int numberOfHints;
@@ -37,14 +37,14 @@ public class Field {
 
         generateFinalField();
         setDifficulty(difficulty);
-        for (int i = 0; i < FIELD_DIMENSION; i++) {
-            for (int j = 0; j < FIELD_DIMENSION; j++) {
-                char s = getColorChar(gameTiles[i][j].getTileColor());
-                System.out.print(s + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+//        for (int i = 0; i < FIELD_DIMENSION; i++) {
+//            for (int j = 0; j < FIELD_DIMENSION; j++) {
+//                char s = getColorChar(gameTiles[i][j].getTileColor());
+//                System.out.print(s + " ");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
 
 
     }
@@ -175,16 +175,12 @@ public class Field {
         }
     }
 
-    public Tile[][] getFinalTiles() {
-        return finalTiles;
-    }
-
     public GameState getGameState() {
         return gameState;
     }
 
     public boolean isSolved(int row, int column){
-        if (row == 8 && column == 8){
+        //if (row == 8 && column == 8){
             int counter = 0;
             for (int i = 0; i < FIELD_DIMENSION; i++) {
                 for (int j = 0; j < FIELD_DIMENSION; j++) {
@@ -194,31 +190,39 @@ public class Field {
                     else return false;
                 }
             }
-            if (counter == 81){
-                return true;
-            }
-        }
-        return false;
+            return counter == 81;
+        //}
     }
 
-    public void fillTile(int row, int column, TileColor color){
+    public int fillTile(int row, int column, TileColor color){
         if (gameState == GameState.PLAYING){
             final Tile tile = gameTiles[row][column];
             if (tile.getTileState() == TileState.EMPTY || tile.getTileState() == TileState.NOTED){
-                gameTiles[row][column] = new FilledTile(color);
-                setNumberOfFilledTiles(getNumberOfFilledTiles() + 1);
+                if (color == finalTiles[row][column].getTileColor()){
+                    gameTiles[row][column] = new FilledTile(color);
+                    setNumberOfFilledTiles(getNumberOfFilledTiles() + 1);
+                }
                 if (gameTiles[row][column].getTileColor() != finalTiles[row][column].getTileColor()){
-                    gameState = GameState.FAILED;
-                    throw new IllegalArgumentException("Wrong tile color");
+                    setNumberOfHints(getNumberOfHints() - 1);
+                    if (getNumberOfHints() == 0){
+                        gameState = GameState.FAILED;
+                    }
+                    return 1; // 1 - filled wrong color
+
                 }
                 if (isSolved(row, column))
                     gameState = GameState.SOLVED;
             }
             else {
-                setNumberOfHints(numberOfHints-1);
-                throw new IllegalArgumentException("Tile already filled");
+                setNumberOfHints(getNumberOfHints()-1);
+                if (getNumberOfHints() == 0){
+                    gameState = GameState.FAILED;
+                }
+                return 3; // 3 - trying to fill already filled tile
             }
+            return 0; // filled color successfully
         }
+        return 2; //error
     }
 
     public int getNumberOfHints() {
@@ -245,7 +249,4 @@ public class Field {
         return finalTiles;
     }
 
-    public Tile[][] getGameField(){
-        return gameTiles;
-    }
 }

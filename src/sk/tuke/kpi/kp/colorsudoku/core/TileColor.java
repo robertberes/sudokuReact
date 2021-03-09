@@ -39,36 +39,37 @@ public enum TileColor {
         return palette.get(random.nextInt(palette.size()));
     }
 
-    public static char getColorChar(TileColor tileColor) {
-        if (tileColor == TileColor.BLACK){
-            return 'B';
+    public static TileColor getColorFromChar(String colorChar) {
+        int intValueOfChar = colorChar.charAt(0);
+        if (intValueOfChar == 66){
+            return BLACK;
         }
-        else if (tileColor == TileColor.CYAN){
-            return 'C';
+        else if (intValueOfChar == 67){
+            return CYAN;
         }
-        else if (tileColor == TileColor.DARKGRAY){
-            return 'D';
+        else if (intValueOfChar == 68){
+            return DARKGRAY;
         }
-        else if (tileColor == TileColor.GREEN){
-            return 'G';
+        else if (intValueOfChar == 71){
+            return GREEN;
         }
-        else if (tileColor == TileColor.MAGENTA){
-            return 'M';
+        else if (intValueOfChar == 77){
+            return MAGENTA;
         }
-        else if (tileColor == TileColor.ORANGE){
-            return 'O';
+        else if (intValueOfChar == 79){
+            return ORANGE;
         }
-        else if (tileColor == TileColor.PINK){
-            return 'P';
+        else if (intValueOfChar == 80){
+            return PINK;
         }
-        else if (tileColor == TileColor.RED){
-            return 'R';
+        else if (intValueOfChar == 82){
+            return RED;
         }
-        else if (tileColor == TileColor.YELLOW){
-            return 'Y';
+        else if (intValueOfChar == 89){
+            return YELLOW;
         }
         else {
-            return 'W';
+            return WHITE;
         }
     }
 }
