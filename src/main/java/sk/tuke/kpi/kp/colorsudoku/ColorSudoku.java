@@ -2,7 +2,6 @@ package sk.tuke.kpi.kp.colorsudoku;
 
 import sk.tuke.kpi.kp.colorsudoku.consoleui.ConsoleUI;
 import sk.tuke.kpi.kp.colorsudoku.core.Field;
-
 import java.util.Scanner;
 
 public class ColorSudoku {
@@ -17,15 +16,18 @@ public class ColorSudoku {
                 System.out.println("Chosen wrong difficulty. Choose again: ");
                 i = input.nextInt();
             }
+            System.out.println("Format for filling the sudoku XYC where X=1-9, Y=A-H and \n C= B,C,D,G,M,O,P,R,Y   type 'X' for exit");
             Field field = new Field(i);
             ConsoleUI ui = new ConsoleUI(field);
             ui.play();
 
             System.out.println("Would you like to play another game? [Y/N]");
-            Scanner scannerYesNo = new Scanner(System.in);
-            char yesNo = scannerYesNo.next(".").charAt(0);
+            Scanner scannerYesNo;
+            char yesNo;
 
             do {
+                scannerYesNo = new Scanner(System.in);
+                yesNo = scannerYesNo.next(".").charAt(0);
                 yesNo = Character.toUpperCase(yesNo);
             } while (yesNo != 'Y' && yesNo != 'N');
 

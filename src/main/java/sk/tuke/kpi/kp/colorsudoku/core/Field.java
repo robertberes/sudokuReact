@@ -17,6 +17,7 @@ public class Field {
     private final int FIELD_DIMENSION = 9;
     private int numberOfFilledTiles;
     private int numberOfHints;
+    private long startMillis;
 
 
 
@@ -33,20 +34,11 @@ public class Field {
 
 
 
-    public void generate(){
+    private void generate(){
 
         generateFinalField();
         setDifficulty(difficulty);
-//        for (int i = 0; i < FIELD_DIMENSION; i++) {
-//            for (int j = 0; j < FIELD_DIMENSION; j++) {
-//                char s = getColorChar(gameTiles[i][j].getTileColor());
-//                System.out.print(s + " ");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-
-
+        startMillis = System.currentTimeMillis();
     }
 
     private void generateFinalField(){
@@ -135,7 +127,7 @@ public class Field {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty){
+    private void setDifficulty(int difficulty){
 
         int minimumWhiteTiles;
         int maximumWhiteTiles;
@@ -160,7 +152,7 @@ public class Field {
         }
     }
 
-    public void hideColors(int minimumWhiteTiles, int maximumWhiteTiles){
+    private void hideColors(int minimumWhiteTiles, int maximumWhiteTiles){
         ArrayList<Integer> listOfColumnNumbers = new ArrayList<>();
         for (int i = 0; i < FIELD_DIMENSION; i++){
             listOfColumnNumbers.add(i);
@@ -179,8 +171,7 @@ public class Field {
         return gameState;
     }
 
-    public boolean isSolved(int row, int column){
-        //if (row == 8 && column == 8){
+    private boolean isSolved(){
             int counter = 0;
             for (int i = 0; i < FIELD_DIMENSION; i++) {
                 for (int j = 0; j < FIELD_DIMENSION; j++) {
@@ -191,7 +182,6 @@ public class Field {
                 }
             }
             return counter == 81;
-        //}
     }
 
     public int fillTile(int row, int column, TileColor color){
@@ -210,7 +200,7 @@ public class Field {
                     return 1; // 1 - filled wrong color
 
                 }
-                if (isSolved(row, column))
+                if (isSolved())
                     gameState = GameState.SOLVED;
             }
             else {
@@ -229,7 +219,7 @@ public class Field {
         return numberOfHints;
     }
 
-    public void setNumberOfHints(int numberOfHints) {
+    private void setNumberOfHints(int numberOfHints) {
         this.numberOfHints = numberOfHints;
     }
 
@@ -237,7 +227,7 @@ public class Field {
         return numberOfFilledTiles;
     }
 
-    public void setNumberOfFilledTiles(int numberOfFilledTiles) {
+    private void setNumberOfFilledTiles(int numberOfFilledTiles) {
         this.numberOfFilledTiles = numberOfFilledTiles;
     }
 
@@ -247,6 +237,14 @@ public class Field {
 
     public Tile[][] getFinalField(){
         return finalTiles;
+    }
+
+    private int getPlayingTime(){
+        return ((int) (System.currentTimeMillis() - startMillis)) / 1000;
+    }
+
+    public int getScore(){
+        return 4000 - getPlayingTime();
     }
 
 }
