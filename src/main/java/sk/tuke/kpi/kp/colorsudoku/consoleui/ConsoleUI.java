@@ -53,6 +53,9 @@ public class ConsoleUI {
         if (yesOrNo()){
             System.out.print("Add comment (max. 1024 chars.): ");
             String commentScanner = new Scanner(System.in).nextLine().trim();
+            while (commentScanner.length()>1024){
+                System.out.print("Maximum limit exceeded. Please type comment again(max. 1024 chars.): ");
+            }
             commentService.addComment(
                     new Comment(GAME_NAME, System.getProperty("user.name"), commentScanner, new Date())
             );
@@ -60,11 +63,11 @@ public class ConsoleUI {
 
         System.out.print("Would you like to rate this game? [Y/N]: ");
         if (yesOrNo()){
-            System.out.println("Set rating 1-5(very bad - best): ");
+            System.out.print("Set rating 1-5(very bad - best): ");
             Scanner input = new Scanner(System.in);
             int rating = input.nextInt();
             while (rating < 1 || rating > 5){
-                System.out.println("Rating out of range. Please set rating again[1-5]: ");
+                System.out.print("Rating out of range. Please set rating again[1-5]: ");
                 rating = input.nextInt();
             }
             ratingService.setRating(
@@ -73,7 +76,7 @@ public class ConsoleUI {
         }
         char inputChar = 'R';
         while (inputChar == 'R' || inputChar == 'C' || inputChar == 'S'){
-            System.out.println("Would you like to see top scores or avg. rating or comments?");
+            System.out.println("Would you like to see top scores or avg. rating or comments? ");
             System.out.print("Type 'S' for scores, 'R' for rating, 'C' for comments or any other char. for exit: ");
             Scanner input = new Scanner(System.in);
             inputChar = input.next(".").charAt(0);
@@ -96,12 +99,12 @@ public class ConsoleUI {
         return yesNo == 'Y';
     }
 
-    public void printField(){
+    private void printField(){
         printFieldHeader();
         printFieldBody();
     }
 
-    public void printFieldHeader(){
+    private void printFieldHeader(){
         System.out.println("Number of hints: " + field.getNumberOfHints());
         System.out.print(" ");
         for (int column = 0; column < FIELD_DIMENSION; column++){
@@ -113,7 +116,7 @@ public class ConsoleUI {
         System.out.println();
     }
 
-    public void printFieldBody(){
+    private void printFieldBody(){
         for (int row = 0; row < FIELD_DIMENSION; row++){
             System.out.print(row + 1);
             for (int column = 0; column < FIELD_DIMENSION; column++){
@@ -132,10 +135,10 @@ public class ConsoleUI {
         }
     }
 
-    public void printTile(int row, int column){
+    private void printTile(int row, int column){
         final Tile tile = field.getGameTile(row, column);
         switch (tile.getTileColor()){
-            case BLACK:
+            case BLUE:
                 System.out.print("\u001B[34m" + "B" + "\u001B[0m");
                 break;
             case CYAN:
@@ -200,7 +203,7 @@ public class ConsoleUI {
         }
     }
 
-    public void fillHandler(int i){
+    private void fillHandler(int i){
         if (i == 1){
             System.out.println("Filled wrong color");
         }
@@ -218,7 +221,6 @@ public class ConsoleUI {
         for (Score score : scores) {
             System.out.printf("%s %d\n", score.getPlayer(), score.getPoints());
         }
-
     }
 
     private void printAverageRating(){

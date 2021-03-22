@@ -1,10 +1,8 @@
 package sk.tuke.kpi.kp.colorsudoku.core;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static sk.tuke.kpi.kp.colorsudoku.core.TileColor.*;
 
 public class Field {
@@ -18,6 +16,7 @@ public class Field {
     private int numberOfFilledTiles;
     private int numberOfHints;
     private long startMillis;
+    private boolean unsupportedGameDifficulty = false;
 
 
 
@@ -26,8 +25,9 @@ public class Field {
         finalTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         gameTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         setNumberOfFilledTiles(81);
-        if(difficulty > 3) {
-            throw new IllegalArgumentException("Unsupported game difficulty");
+        if(difficulty > 3 && difficulty != 99) {
+            unsupportedGameDifficulty = true;
+            return;
         }
         generate();
     }
@@ -42,22 +42,39 @@ public class Field {
     }
 
     private void generateFinalField(){
+        int counter;
+        outerLoop:
         for (int i = 0; i < FIELD_DIMENSION; i++){
+            counter = 0;
             for (int j = 0; j < FIELD_DIMENSION; j++){
                 finalTiles[i][j] = new EmptyTile();
                 addColorsToField( i, j);
+                if (counter > 15){
+                    i = 0;
+                    emptyAllTiles();
+                    continue outerLoop;
+                }
                 if (finalTiles[i][j].getTileColor()==WHITE){
                     j=0;
+                    counter++;
                 }
             }
         }
     }
 
-    private void addColorsToField(int i, int j){
+    private void emptyAllTiles(){
+        for (int i = 0; i < FIELD_DIMENSION; i++){
+            for (int j = 0; j < FIELD_DIMENSION; j++){
+                finalTiles[i][j] = new EmptyTile();
+            }
+        }
+    }
+
+    private void addColorsToField(int row, int column){
         TileColor tileColor;
-        List<TileColor> colorPalette= Arrays.asList(TileColor.values());
+        List<TileColor> colorPalette = Arrays.asList(TileColor.values());
         TileColor.getRandom();
-        List<TileColor> listOfColors= checkField(finalTiles, i, j);
+        List<TileColor> listOfColors = checkField(finalTiles, row, column);
 
         List<TileColor> listOfColorsWithoutDuplicates = listOfColors.stream()
                 .distinct()
@@ -73,18 +90,18 @@ public class Field {
         tileColor = TileColor.getRandomFromList(missingColors);
         TileColor firstColor = TileColor.getRandomFromList(missingColors);
 
-        if (j == 9){
+        if (column == 9){
             firstColor = tileColor;
         }
-        if (j == 0 && i > 0){
+        if (column == 0 && row > 0){
             tileColor = firstColor;
         }
 
         listOfColors.clear();
         listOfColorsWithoutDuplicates.clear();
         missingColors.clear();
-        finalTiles[i][j] = new FilledTile(tileColor);
-        gameTiles[i][j] = new FilledTile(tileColor);
+        finalTiles[row][column] = new FilledTile(tileColor);
+        gameTiles[row][column] = new FilledTile(tileColor);
     }
 
     private @NotNull List<TileColor> checkField(Tile[][] tiles, int row, int column){
@@ -148,6 +165,12 @@ public class Field {
             minimumWhiteTiles = 5;
             maximumWhiteTiles = 7;
             setNumberOfHints(3);
+            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+        }
+        if (difficulty == 99){ //difficulty for testing
+            minimumWhiteTiles = 0;
+            maximumWhiteTiles = 1;
+            setNumberOfHints(5);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
     }
@@ -215,6 +238,24 @@ public class Field {
         return 2; //error
     }
 
+    public void noteTile(int row, int column, TileColor color){
+        if (gameState == GameState.PLAYING){
+            final Tile tile = gameTiles[row][column];
+            if (tile.getTileState() == TileState.EMPTY ) {
+                gameTiles[row][column] = new NotedTile(color);
+            }
+            if (tile.getTileState() == TileState.NOTED){
+                NotedTile tile2 = (NotedTile) gameTiles[row][column];
+                for (int i=0; i<tile2.getNotedColors().size(); i++){
+                    if (color == tile2.getNotedColors().get(i)){
+                        tile2.removeColorFromNoted(color);
+                    }
+                }
+                tile2.addColorToNoted(color);
+            }
+        }
+    }
+
     public int getNumberOfHints() {
         return numberOfHints;
     }
@@ -247,4 +288,8 @@ public class Field {
         return 4000 - getPlayingTime();
     }
 
+
+    public boolean isUnsupportedGameDifficulty() {
+        return unsupportedGameDifficulty;
+    }
 }

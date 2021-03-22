@@ -2,11 +2,11 @@ package sk.tuke.kpi.kp.colorsudoku.service;
 
 
 import sk.tuke.kpi.kp.colorsudoku.entity.Rating;
+import sk.tuke.kpi.kp.colorsudoku.entity.Score;
 
 import java.sql.*;
-
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RatingServiceJDBC implements RatingService {
@@ -16,13 +16,29 @@ public class RatingServiceJDBC implements RatingService {
     public static final String SELECT = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ?";
     public static final String DELETE = "DELETE FROM rating";
     public static final String INSERT = "INSERT INTO rating (game, player, rating, ratedOn) VALUES (?, ?, ?, ?)";
-
+    public static final String UPDATE = "UPDATE rating SET rating = ? WHERE player = ?";
+    public static final String SELECT1 = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ? AND player = ?";
 
     @Override
     public void setRating(Rating rating) throws RatingException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT)
+             PreparedStatement statement = connection.prepareStatement(INSERT);
+             PreparedStatement statement2 = connection.prepareStatement(UPDATE);
+             PreparedStatement statement1 = connection.prepareStatement(SELECT)
         ) {
+            statement1.setString(1,rating.getGame());
+            try (ResultSet rs = statement1.executeQuery()){
+
+                while (rs.next()){
+                    if (rs.getString(2).equals(rating.getPlayer())){
+                        statement2.setInt(1,rating.getRating());
+                        statement2.setString(2, rating.getPlayer());
+
+                        statement2.executeUpdate();
+                        return;
+                    }
+                }
+            }
             statement.setString(1, rating.getGame());
             statement.setString(2, rating.getPlayer());
             statement.setInt(3, rating.getRating());
@@ -36,7 +52,7 @@ public class RatingServiceJDBC implements RatingService {
     @Override
     public int getAverageRating(String game) throws RatingException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT);
+             PreparedStatement statement = connection.prepareStatement(SELECT)
         ) {
             statement.setString(1, game);
             try (ResultSet rs = statement.executeQuery()) {
@@ -59,13 +75,19 @@ public class RatingServiceJDBC implements RatingService {
     @Override
     public int getRating(String game, String player) throws RatingException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT);
+             PreparedStatement statement = connection.prepareStatement(SELECT1)
         ) {
             statement.setString(1, game);
             statement.setString(2, player);
             try (ResultSet rs = statement.executeQuery()) {
-                int playerRating = 0;
-                playerRating = rs.getInt(3);
+                rs.next();
+                List<Rating> ratings = new ArrayList<>();
+                int playerRating;
+                ratings.add(new Rating(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getTimestamp(4)));
+
+
+                playerRating = ratings.get(0).getRating();
+
                 return playerRating;
             }
         } catch (SQLException e) {
@@ -76,7 +98,7 @@ public class RatingServiceJDBC implements RatingService {
     @Override
     public void reset() throws RatingException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement();
+             Statement statement = connection.createStatement()
         ) {
             statement.executeUpdate(DELETE);
         } catch (SQLException e) {

@@ -12,7 +12,7 @@ public class ColorSudoku {
             System.out.println("Welcome to Color Sudoku please choose difficulty: ");
             System.out.print("1 - Easy, 2 - Medium, 3 - Hard: ");
             int i = input.nextInt();
-            while (i < 1 || i > 3){
+            while ((i < 1 || i > 3) && i != 99){
                 System.out.println("Chosen wrong difficulty. Choose again: ");
                 i = input.nextInt();
             }

@@ -1,6 +1,7 @@
 package sk.tuke.kpi.kp.colorsudoku.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NotedTile extends Tile{
@@ -11,13 +12,16 @@ public class NotedTile extends Tile{
 
     public NotedTile(TileColor tileColor) {
         super();
-        this.setTileColor(tileColor);
         addColorToNoted(tileColor);
         tileState = TileState.NOTED;
     }
 
-    private List<TileColor> addColorToNoted(TileColor tileColor){
+    public List<TileColor> addColorToNoted(TileColor tileColor){
         notedColors.add(tileColor);
+        return notedColors;
+    }
+    public List<TileColor> removeColorFromNoted(TileColor tileColor){
+        notedColors.remove(tileColor);
         return notedColors;
     }
 

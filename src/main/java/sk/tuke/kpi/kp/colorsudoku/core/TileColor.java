@@ -11,7 +11,7 @@ public enum TileColor {
     GREEN(Color.green),
     CYAN(Color.cyan),
     MAGENTA(Color.magenta),
-    BLACK(Color.black),
+    BLUE(Color.blue),
     PINK(Color.pink),
     DARKGRAY(Color.darkGray),
     WHITE(Color.white);
@@ -42,7 +42,7 @@ public enum TileColor {
     public static TileColor getColorFromChar(String colorChar) {
         int intValueOfChar = colorChar.charAt(0);
         if (intValueOfChar == 66){
-            return BLACK;
+            return BLUE;
         }
         else if (intValueOfChar == 67){
             return CYAN;

@@ -1,10 +1,7 @@
 package test;
 
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.kp.colorsudoku.core.Field;
-import sk.tuke.kpi.kp.colorsudoku.core.GameState;
-import sk.tuke.kpi.kp.colorsudoku.core.Tile;
-import sk.tuke.kpi.kp.colorsudoku.core.TileColor;
+import sk.tuke.kpi.kp.colorsudoku.core.*;
 
 import java.util.Random;
 
@@ -29,7 +26,7 @@ public class FieldTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertTrue((fieldWithIncorrectDifficulty == null) || (fieldWithIncorrectDifficulty.getDifficulty() <= 3));
+        assertTrue(fieldWithIncorrectDifficulty.isUnsupportedGameDifficulty());
     }
 
     @Test
@@ -51,17 +48,21 @@ public class FieldTest {
     public void sameColorInRowColumnBox(){
         int randomRow;
         int randomColumn;
+        int startNumberOfMistakes = field.getNumberOfHints();
+        int numberOfMistakesAfterWrongFill;
         do {
             randomRow = randomGenerator.nextInt(8);
             randomColumn = randomGenerator.nextInt(8);
         } while (field.getGameTile(randomRow,randomColumn).getTileColor() != TileColor.WHITE);
         try {
-            field.fillTile(randomRow,randomColumn,TileColor.RED);
+            TileColor color = field.getFinalField()[randomRow][randomColumn].getTileColor();
+            field.fillTile(randomRow,randomColumn,color);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        assertSame(field.getGameState(), GameState.FAILED);
+        numberOfMistakesAfterWrongFill = field.getNumberOfHints();
+        assertSame(startNumberOfMistakes, numberOfMistakesAfterWrongFill);
 
     }
 
@@ -76,8 +77,26 @@ public class FieldTest {
                     }
                 }
             }
+
         }
         assertSame(field.getGameState(), GameState.SOLVED);
+    }
+
+    @Test
+    public void checkNoted(){
+        int i;
+        int j = 0;
+        outerLoop:
+        for (i = 0; i < DIMENSIONS; i++) {
+            for (j = 0; j < DIMENSIONS; j++) {
+                if(field.getGameTile(i, j).getTileColor() == TileColor.WHITE){
+                    field.noteTile(i,j,TileColor.GREEN);
+                    break outerLoop;
+                }
+            }
+        }
+        assertTrue(field.getGameTile(i,j).getTileState()== TileState.NOTED);
+
     }
 
 
