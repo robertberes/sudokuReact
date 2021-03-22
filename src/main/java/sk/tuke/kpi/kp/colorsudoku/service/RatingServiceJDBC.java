@@ -2,7 +2,6 @@ package sk.tuke.kpi.kp.colorsudoku.service;
 
 
 import sk.tuke.kpi.kp.colorsudoku.entity.Rating;
-import sk.tuke.kpi.kp.colorsudoku.entity.Score;
 
 import java.sql.*;
 import java.util.ArrayList;

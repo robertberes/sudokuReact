@@ -1,7 +1,6 @@
 package sk.tuke.kpi.kp.colorsudoku.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class NotedTile extends Tile{
