@@ -1,7 +1,8 @@
 package sk.tuke.kpi.kp.colorsudoku.service;
 
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.kp.colorsudoku.entity.Rating;
+import sk.tuke.colorsudoku.entity.Rating;
+import sk.tuke.colorsudoku.service.*;
 
 import java.util.Date;
 
