@@ -11,24 +11,18 @@ public class Field {
     private GameState gameState = GameState.PLAYING;
     private final Tile[][] finalTiles;
     private final Tile[][] gameTiles;
-    private final int difficulty;
     private final int FIELD_DIMENSION = 9;
     private int numberOfFilledTiles;
     private int numberOfHints;
     private long startMillis;
-    private boolean unsupportedGameDifficulty = false;
+    //private boolean unsupportedGameDifficulty = false;
 
 
 
-    public Field(int difficulty) {
-        this.difficulty = difficulty;
+    public Field() {
         finalTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         gameTiles = new Tile[FIELD_DIMENSION][FIELD_DIMENSION];
         setNumberOfFilledTiles(81);
-        if(difficulty > 3 && difficulty != 99) {
-            unsupportedGameDifficulty = true;
-            return;
-        }
         generate();
     }
 
@@ -38,19 +32,20 @@ public class Field {
 
         generateFinalField();
         //setDifficulty(difficulty);
-        startMillis = System.currentTimeMillis();
+
     }
 
     private void generateFinalField(){
         int counter;
+        emptyAllTiles();
         outerLoop:
         for (int i = 0; i < FIELD_DIMENSION; i++){
             counter = 0;
             for (int j = 0; j < FIELD_DIMENSION; j++){
-                finalTiles[i][j] = new EmptyTile();
+                //finalTiles[i][j] = new EmptyTile();
                 addColorsToField( i, j);
                 if (counter > 15){
-                    i = 0;
+                    i = -1;
                     emptyAllTiles();
                     continue outerLoop;
                 }
@@ -66,6 +61,7 @@ public class Field {
         for (int i = 0; i < FIELD_DIMENSION; i++){
             for (int j = 0; j < FIELD_DIMENSION; j++){
                 finalTiles[i][j] = new EmptyTile();
+                gameTiles[i][j] = new EmptyTile();
             }
         }
     }
@@ -88,14 +84,14 @@ public class Field {
         }
 
         tileColor = TileColor.getRandomFromList(missingColors);
-        TileColor firstColor = TileColor.getRandomFromList(missingColors);
+        //TileColor firstColor = TileColor.getRandomFromList(missingColors);
 
-        if (column == 9){
-            firstColor = tileColor;
-        }
-        if (column == 0 && row > 0){
-            tileColor = firstColor;
-        }
+//        if (column == 9){
+//            firstColor = tileColor;
+//        }
+//        if (column == 0 && row > 0){
+//            tileColor = firstColor;
+//        }
 
         listOfColors.clear();
         listOfColorsWithoutDuplicates.clear();
@@ -140,10 +136,6 @@ public class Field {
         return colors;
     }
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
     public void setDifficulty(int difficulty){
 
         int minimumWhiteTiles;
@@ -168,11 +160,13 @@ public class Field {
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
         if (difficulty == 99){ //difficulty for testing
-            minimumWhiteTiles = 0;
-            maximumWhiteTiles = 1;
-            setNumberOfHints(5);
-            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+            gameTiles[0][0]= new EmptyTile();
+//            minimumWhiteTiles = 0;
+//            maximumWhiteTiles = 1;
+//            setNumberOfHints(5);
+//            hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
+        startMillis = System.currentTimeMillis();
     }
 
     private void hideColors(int minimumWhiteTiles, int maximumWhiteTiles){
@@ -289,7 +283,5 @@ public class Field {
     }
 
 
-    public boolean isUnsupportedGameDifficulty() {
-        return unsupportedGameDifficulty;
-    }
+
 }

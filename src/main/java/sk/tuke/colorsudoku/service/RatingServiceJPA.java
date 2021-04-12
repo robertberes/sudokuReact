@@ -15,8 +15,11 @@ public class RatingServiceJPA implements RatingService{
     private EntityManager entityManager;
 
     @Override
-    public void setRating(Rating rating) throws ScoreException{
+    public void setRating(Rating rating) throws RatingException{
+        entityManager.createNamedQuery("Rating.delRating").setParameter("game", rating.getGame()).setParameter("player", rating.getPlayer()).executeUpdate();
         entityManager.persist(rating);
+
+
     }
 
     @Override
@@ -26,7 +29,7 @@ public class RatingServiceJPA implements RatingService{
 
     @Override
     public int getRating(String game, String player) throws RatingException {
-        return entityManager.createQuery("select rating from Rating where player like :player").setParameter("player", player).getFirstResult();
+        return ((Rating)entityManager.createNamedQuery("Rating.getRating").setParameter("game", game).setParameter("player", player).getSingleResult()).getRating();
     }
 
     @Override

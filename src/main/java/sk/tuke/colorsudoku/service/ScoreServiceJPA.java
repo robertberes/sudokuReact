@@ -19,8 +19,8 @@ public class ScoreServiceJPA implements ScoreService {
 
     @Override
     public List<Score> getTopScores(String game) throws ScoreException {
-        return entityManager.createQuery("select s from Score s order by s.points desc")
-                .setMaxResults(10).getResultList();
+        return entityManager.createNamedQuery("Score.getTopScores")
+                .setParameter("game", game).setMaxResults(10).getResultList();
     }
 
 

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class ConsoleUI {
 
     private static final String GAME_NAME = "color_sudoku";
-    private final Field field;
+    private Field field;
     private static final Pattern INPUT_PATTERN = Pattern.compile("([1-9])([A-I])([BCDGMOPRY])");
     private final int FIELD_DIMENSION = 9;
 
@@ -46,7 +46,9 @@ public class ConsoleUI {
     }
 
     public void play(){
+        Scanner scannerYesNo;
         Scanner input1 = new Scanner(System.in);
+        char yesNo;
         System.out.println("Welcome to Color Sudoku please choose difficulty: ");
         System.out.print("1 - Easy, 2 - Medium, 3 - Hard: ");
         int i = input1.nextInt();
@@ -100,21 +102,36 @@ public class ConsoleUI {
             );
         }
         char inputChar = 'R';
-        while (inputChar == 'R' || inputChar == 'C' || inputChar == 'S'){
+        while (inputChar == 'R' || inputChar == 'C' || inputChar == 'S' || inputChar == 'M'){
             System.out.println("Would you like to see top scores or avg. rating or comments? ");
-            System.out.print("Type 'S' for scores, 'R' for rating, 'C' for comments or any other char. for exit: ");
+            System.out.print("Type 'S' for scores, 'R' for rating, 'C' for comments, 'M' for your rating or any other char. for exit: ");
             Scanner input = new Scanner(System.in);
             inputChar = input.next(".").charAt(0);
             inputChar = Character.toUpperCase(inputChar);
             getDataFromDatabase(inputChar);
 
         }
+
+        do {
+            System.out.println("Would you like to play another game? [Y/N]");
+            scannerYesNo = new Scanner(System.in);
+            yesNo = scannerYesNo.next(".").charAt(0);
+            yesNo = Character.toUpperCase(yesNo);
+        } while (yesNo != 'Y' && yesNo != 'N');
+
+        if (yesNo == 'Y'){
+            this.field = new Field();
+            play();
+        }
+
+
     }
 
     private void getDataFromDatabase(char input){
         if (input == 'S') printScores();
         if (input == 'R') printAverageRating();
         if (input == 'C') printComments();
+        if (input == 'M') printRating();
     }
 
     private boolean yesOrNo(){
@@ -246,6 +263,11 @@ public class ConsoleUI {
         for (Score score : scores) {
             System.out.printf("%s %d\n", score.getPlayer(), score.getPoints());
         }
+    }
+
+    private void printRating(){
+        int myRating = ratingService.getRating(GAME_NAME,System.getProperty("user.name"));
+        System.out.println(myRating);
     }
 
     private void printAverageRating(){

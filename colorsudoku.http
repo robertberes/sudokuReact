@@ -1,0 +1,52 @@
+
+###
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "game": "color_sudoku",
+  "player": "robo",
+  "comment": "Hra color sudoku",
+  "commentedOn": "2020-12-25T12:40:50"
+}
+
+###
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "color_sudoku",
+  "player": "robo",
+  "rating": 1,
+  "rated_on": "2020-12-25T12:40:50"
+}
+
+###
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "color_sudoku",
+  "player": "robob",
+  "points": 4000,
+  "playedOn": "2020-12-25T12:40:50"
+}
+
+###
+GET http://localhost:8080/api/score/color_sudoku
+Accept: application/json
+
+###
+GET http://localhost:8080/api/rating/color_sudoku/robo
+Accept: application/json
+
+###
+GET http://localhost:8080/api/rating/color_sudoku
+Accept: application/json
+
+###
+GET http://localhost:8080/api/comment/color_sudoku
+Accept: application/json
+
+
+
