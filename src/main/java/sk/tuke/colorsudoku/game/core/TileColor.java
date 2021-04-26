@@ -72,4 +72,38 @@ public enum TileColor {
             return WHITE;
         }
     }
+
+    public static TileColor getTileColor(String colorName){
+
+        if (colorName.equals("blue")){
+            return BLUE;
+        }
+        else if (colorName.equals("cyan")){
+            return CYAN;
+        }
+        else if (colorName.equals("darkgray")){
+            return DARKGRAY;
+        }
+        else if (colorName.equals("green")){
+            return GREEN;
+        }
+        else if (colorName.equals("magenta")){
+            return MAGENTA;
+        }
+        else if (colorName.equals("orange")){
+            return ORANGE;
+        }
+        else if (colorName.equals("pink")){
+            return PINK;
+        }
+        else if (colorName.equals("red")){
+            return RED;
+        }
+        else if (colorName.equals("yellow")){
+            return YELLOW;
+        }
+        else {
+            return WHITE;
+        }
+    }
 }

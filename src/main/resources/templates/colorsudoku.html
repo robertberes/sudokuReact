@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ColorSudoku</title>
+    <link rel="stylesheet" href="/css/stylesheet.css"/>
+</head>
+<body>
+<h1>Color Sudoku</h1>
+<a href="/colorsudoku/new?difficulty=1">New Game</a><br/>
+<div class="dropdown">
+    <button onclick="dropdownMenu()" class="dropbtn">Difficulty</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="/colorsudoku/new?difficulty=1">Easy</a>
+        <a href="/colorsudoku/new?difficulty=2">Medium</a>
+        <a href="/colorsudoku/new?difficulty=3">Hard</a>
+    </div>
+</div>
+
+Current operation:
+<a href="/colorsudoku/note" th:text='${@colorSudokuController.noting ? "Note" : "Fill"}'/><br/>
+<!--<div th:text="${@colorSudokuController.gameState}"/>-->
+<div th:if="${@colorSudokuController.isSolved}">SOLVED</div>
+<div th:text="${@colorSudokuController.numberOfHints}"/>
+<div style="display: flex;">
+    <div>
+        <a href="/colorsudoku?color=yellow" rel="keep-params">
+            <img class="color_palette" src="/images/tiles/YELLOW.png" onclick="this.style.borderStyle = 'inset';">
+        <a/>
+        <a href="/colorsudoku?color=orange">
+            <img class="color_palette" src='/images/tiles/ORANGE.png'>
+        <a/>
+        <a href="/colorsudoku?color=red">
+            <img class="color_palette" src='/images/tiles/RED.png' style="margin-right: 2px">
+        <a/>
+        <a href="/colorsudoku?color=magenta">
+            <img class="color_palette" src='/images/tiles/MAGENTA.png'>
+        <a/>
+        <a href="/colorsudoku?color=pink">
+            <img class="color_palette" src='/images/tiles/PINK.png'>
+        <a/>
+        <a href="/colorsudoku?color=darkgray">
+            <img class="color_palette" src='/images/tiles/DARKGRAY.png' style="margin-right: 2px">
+        <a/>
+        <a href="/colorsudoku?color=green">
+            <img class="color_palette" src='/images/tiles/GREEN.png'>
+        <a/>
+        <a id="blue" href="/colorsudoku?color=blue">
+            <img class="color_palette" src='/images/tiles/BLUE.png'>
+        <a/>
+        <a href="/colorsudoku?color=cyan">
+            <img class="color_palette" src='/images/tiles/CYAN.png'>
+        <a/>
+            <br/>
+
+        <span id="sud" th:utext="${@colorSudokuController.getHtmlField}"/>
+    </div>
+    <button type="button" onclick="showScores()">Show scores</button>
+    <button type="button" onclick="showComments()">Show comments</button>
+    <div style="display: flex; align-items: flex-start">
+
+        <div id="scoreDiv" style="display: none">
+            <h2>Scores</h2>
+            <ol>
+                <li th:each="score : ${scores}">
+                    <span th:text="${score.player}"/>
+                    <span th:text="${score.points}"/>
+                </li>
+            </ol>
+        </div>
+
+        <div id="commentDiv" style="display: none">
+            <h2>Comments</h2>
+            <ol>
+                <li th:each="comment : ${comments}">
+                    <span th:text="${comment.player}"/>
+                    <span th:text="${comment.comment}"/>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementsByClassName("color_palette").onclick = changeColor;
+
+    function changeColor() {
+        document.getElementsByClassName("color_palette").style.borderStyle = 'inset';
+        return false;
+    }
+
+    function showScores() {
+        var x = document.getElementById("scoreDiv");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function showComments() {
+        var x = document.getElementById("commentDiv");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
+    function dropdownMenu() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

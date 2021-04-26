@@ -161,6 +161,7 @@ public class Field {
         }
         if (difficulty == 99){ //difficulty for testing
             gameTiles[0][0]= new EmptyTile();
+            setNumberOfHints(10);
 //            minimumWhiteTiles = 0;
 //            maximumWhiteTiles = 1;
 //            setNumberOfHints(5);

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Color Sudoku</title>
+    <link rel="stylesheet" href="/static/css/stylesheet.css"/>
+</head>
+<body>
+<h1>Welcome to Gamestudio!</h1>
+<div th:if="${@userController.logged}">
+    You are logged as <span th:text="${@userController.loggedUser}"/>.
+    <a href="/user/logout">Logout</a>
+</div>
+<div th:if="${not @userController.logged}">
+    <form method="get" action="/user/login">
+        Login: <input name="login" type="text"/>
+        <input type="submit" value="Login">
+    </form>
+</div>
+    <h1>Our favorite games</h1>
+    <ol>
+        <li><a href="/colorsudoku/new">Color Sudoku</a> </li>
+    </ol>
+
+</body>
+</html>
