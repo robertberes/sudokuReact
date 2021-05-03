@@ -5,125 +5,273 @@
     <meta charset="UTF-8">
     <title>ColorSudoku</title>
     <link rel="stylesheet" href="/css/stylesheet.css"/>
+    <script type="text/javascript" src="/js/actions.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 </head>
-<body>
-<h1>Color Sudoku</h1>
-<a href="/colorsudoku/new?difficulty=1">New Game</a><br/>
-<div class="dropdown">
-    <button onclick="dropdownMenu()" class="dropbtn">Difficulty</button>
-    <div id="myDropdown" class="dropdown-content">
-        <a href="/colorsudoku/new?difficulty=1">Easy</a>
-        <a href="/colorsudoku/new?difficulty=2">Medium</a>
-        <a href="/colorsudoku/new?difficulty=3">Hard</a>
+<body onload="showStars()">
+<!--/*@thymesVar id="message" type="java.lang.String"*/-->
+<!--/*@thymesVar id="scores" type="java.util.List<sk.tuke.colorsudoku.entity.Score>"*/-->
+<!--/*@thymesVar id="rating" type="java.util.List<sk.tuke.colorsudoku.entity.Rating>"*/-->
+<!--/*@thymesVar id="comments" type="java.util.List<sk.tuke.colorsudoku.entity.Comment>"*/-->
+<!--/*@thymesVar id="userController" type="sk.tuke.colorsudoku.server.controller.UserController"*/-->
+<!--/*@thymesVar id="colorSudokuController" type="sk.tuke.colorsudoku.server.controller.ColorSudokuController"*/-->
+
+<div style="display: flex" th:replace="fragments::header"/>
+<!--<h1>Color Sudoku</h1>-->
+
+
+<div id="panel">
+    <div class="dropdown">
+        <button onclick="dropdownMenu()" class="dropbtn">New Game</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="/colorsudoku/new?difficulty=1">Easy</a>
+            <a href="/colorsudoku/new?difficulty=2">Medium</a>
+            <a href="/colorsudoku/new?difficulty=3">Hard</a>
+            <a href="/colorsudoku/new?difficulty=99">Test</a>
+        </div>
     </div>
+    <div id="operationPanel">
+        <div>
+            <div id="operation" >Current operation:
+                <a href="/colorsudoku/note" th:text='${@colorSudokuController.noting ? "Note" : "Fill"}'/>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="hintsPanel">
+        <div id="hints">
+            Number of hints:
+            <a th:text="${@colorSudokuController.numberOfHints}"/>
+        </div>
+
+    </div>
+
+    <div style="padding-top: 25px">
+        Game rating:
+    </div>
+    <div id="rating" style="font-size: 42px; color: orange">
+        Stars:
+    </div>
+    <div id="rating1" style="font-size: 42px">
+        star
+    </div>
+
 </div>
 
-Current operation:
-<a href="/colorsudoku/note" th:text='${@colorSudokuController.noting ? "Note" : "Fill"}'/><br/>
-<!--<div th:text="${@colorSudokuController.gameState}"/>-->
-<div th:if="${@colorSudokuController.isSolved}">SOLVED</div>
-<div th:text="${@colorSudokuController.numberOfHints}"/>
-<div style="display: flex;">
+
+<!--This is the main field-->
+
+<div id="mainContent">
     <div>
-        <a href="/colorsudoku?color=yellow" rel="keep-params">
-            <img class="color_palette" src="/images/tiles/YELLOW.png" onclick="this.style.borderStyle = 'inset';">
-        <a/>
-        <a href="/colorsudoku?color=orange">
-            <img class="color_palette" src='/images/tiles/ORANGE.png'>
-        <a/>
-        <a href="/colorsudoku?color=red">
-            <img class="color_palette" src='/images/tiles/RED.png' style="margin-right: 2px">
-        <a/>
-        <a href="/colorsudoku?color=magenta">
-            <img class="color_palette" src='/images/tiles/MAGENTA.png'>
-        <a/>
-        <a href="/colorsudoku?color=pink">
-            <img class="color_palette" src='/images/tiles/PINK.png'>
-        <a/>
-        <a href="/colorsudoku?color=darkgray">
-            <img class="color_palette" src='/images/tiles/DARKGRAY.png' style="margin-right: 2px">
-        <a/>
-        <a href="/colorsudoku?color=green">
-            <img class="color_palette" src='/images/tiles/GREEN.png'>
-        <a/>
-        <a id="blue" href="/colorsudoku?color=blue">
-            <img class="color_palette" src='/images/tiles/BLUE.png'>
-        <a/>
-        <a href="/colorsudoku?color=cyan">
-            <img class="color_palette" src='/images/tiles/CYAN.png'>
-        <a/>
+        <div id="colorPalette">
+            <a href="/colorsudoku?color=yellow" rel="keep-params">
+                <img id="yellow" class="color_palette" src="/images/tiles/YELLOW.png" style="margin-left: 2px"
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=orange">
+                <img id="orange" class="color_palette" src='/images/tiles/ORANGE.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=red">
+                <img id="red" class="color_palette" src='/images/tiles/RED.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=magenta">
+                <img id="magenta" class="color_palette" src='/images/tiles/MAGENTA.png' style="margin-left: 6px"
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=pink">
+                <img id="pink" class="color_palette" src='/images/tiles/PINK.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=darkgray">
+                <img id="darkgray" class="color_palette" src='/images/tiles/DARKGRAY.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=green">
+                <img id="green" class="color_palette" src='/images/tiles/GREEN.png' style="margin-left: 6px"
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=blue">
+                <img id="blue" class="color_palette" src='/images/tiles/BLUE.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
+            <a href="/colorsudoku?color=cyan">
+                <img id="cyan" class="color_palette" src='/images/tiles/CYAN.png'
+                     onmouseover="this.style.cursor = 'pointer';">
+            </a>
             <br/>
+        </div>
+        <span id="howToPlay">
+            How to play:<br>
+            Choose color from
+            <a class="howToPlayText" onmouseover="highlightPalette()" onmouseout="changeBack('colorPalette')"> color palette.</a>
+            Then you can fill the squares with that color.<br>
+            <a class="howToPlayText" onmouseover="highlightBackground('operation')" onmouseout="changeBack('operation')">Here you can change "Fill" to "Note" and back.</a><br>
+            <a class="howToPlayText" onmouseover="highlightBackground('hints')" onmouseout="changeBack('hints')">Here is your number of hints.</a><br>
+            If number of hints reaches 0 then you have failed!
+            <button class="howToPlayButton" type="button" onclick="generateField()">Got it!</button>
+        </span>
 
         <span id="sud" th:utext="${@colorSudokuController.getHtmlField}"/>
-    </div>
-    <button type="button" onclick="showScores()">Show scores</button>
-    <button type="button" onclick="showComments()">Show comments</button>
-    <div style="display: flex; align-items: flex-start">
 
-        <div id="scoreDiv" style="display: none">
-            <h2>Scores</h2>
-            <ol>
-                <li th:each="score : ${scores}">
-                    <span th:text="${score.player}"/>
-                    <span th:text="${score.points}"/>
-                </li>
-            </ol>
+        <span id="win">
+            Congratulations!!!<br>
+            You have solved the sudoku.
+            Your score is: <span th:text="${@colorSudokuController.getScore}"/>
+            <button class="dropbtn" type="button" onclick="showCommentForm()">Add comment</button>
+            <button class="dropbtn" type="button" onclick="rateMyGame()">Rate the game</button>
+        </span>
+        <span id="stars">
+            <div class="rating rating2">
+                <a style="text-decoration: none;" href="" title="Give 5 stars" onclick="rateGame(5)">★</a>
+                <a style="text-decoration: none;" href="" title="Give 4 stars" onclick="rateGame(4)">★</a>
+                <a style="text-decoration: none;" href="" title="Give 3 stars" onclick="rateGame(3)">★</a>
+                <a style="text-decoration: none;" href="" title="Give 2 stars" onclick="rateGame(2)">★</a>
+                <a style="text-decoration: none;" href="" title="Give 1 star" onclick="rateGame(1)">★</a>
+            </div>
+        </span>
+
+        <span id="comment">
+            <textarea id="myTextarea" placeholder="New comment"></textarea>
+            <button id="submitComment" name="Submit" onclick="addComment()">Submit</button>
+        </span>
+
+    </div>
+    <div>
+        <div>
+            <button id="showScoreBtn" class="dropbtn" type="button" onclick="showScores()">Show scores</button>
+            <button class="dropbtn" type="button" onclick="showComments()">Show comments</button>
         </div>
 
-        <div id="commentDiv" style="display: none">
-            <h2>Comments</h2>
-            <ol>
-                <li th:each="comment : ${comments}">
-                    <span th:text="${comment.player}"/>
-                    <span th:text="${comment.comment}"/>
-                </li>
-            </ol>
+        <div id="database">
+
+            <div id="scoreDiv">
+                <h2>Scores</h2>
+                <ol>
+                    <li th:each="score : ${scores}">
+                        <span th:text="${score.player}"/>
+                        <span th:text="${score.points}"/>
+                    </li>
+                </ol>
+            </div>
+
+            <div id="commentDiv">
+                <h2>Comments</h2>
+                <ol style="list-style-type: none">
+                    <li th:each="comment : ${comments}">
+                        <span th:text="${comment.player}"/>
+                        <span th:text="${comment.comment}"/>
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
+
 </div>
-<script>
-    document.getElementsByClassName("color_palette").onclick = changeColor;
+<div th:replace="fragments::footer"/>
 
-    function changeColor() {
-        document.getElementsByClassName("color_palette").style.borderStyle = 'inset';
-        return false;
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+
+    let isSolved = /*[[${@colorSudokuController.isSolved}]]*/ 'default';
+    let isFailed = /*[[${@colorSudokuController.isFailed}]]*/ 'default';
+    if (isSolved === true) {
+        document.getElementById("sud").style.display = "none";
+        document.getElementById("win").style.display = "block";
+        document.getElementById("colorPalette").style.pointerEvents = "none";
+        document.getElementById("sud").style.pointerEvents = "none";
+        document.getElementById("operation").style.pointerEvents = "none";
+    }
+    if (isFailed === true) {
+        alert("You have failed");
     }
 
-    function showScores() {
-        var x = document.getElementById("scoreDiv");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
+    function showStars() {
+        let myRating = /*[[${@colorSudokuController.getRating}]]*/ '0';
+        var textRating = "";
+        for (let i = 0; i < myRating; i++){
+            textRating += "★";
+        }
+        document.getElementById("rating").innerHTML = textRating;
+        var textRating1 = "";
+        for (myRating; myRating < 5; myRating++){
+            textRating1 += "★";
+        }
+        document.getElementById("rating1").innerHTML = textRating1;
+
+        let regex = /(.*\/colorsudoku\/new.*)/g;
+        let url = window.location.href;
+        if (url.match(regex)) {
+            document.getElementById("howToPlay").style.display = "block";
+            document.getElementById("sud").style.display = "none";
+            document.getElementById("colorPalette").style.pointerEvents = "none";
+            document.getElementById("operation").style.pointerEvents = "none";
         }
     }
 
-    function showComments() {
-        var x = document.getElementById("commentDiv");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
+    function rateGame(newRating) {
+        let player = /*[[${@userController.loggedUser.login}]]*/ 'Player';
+        let rating = parseInt(newRating);
+        var data = {
+            game: "color_sudoku",
+            player: player,
+            rating: rating,
+            ratedOn: Date.now(),
+        };
+        $.ajax({
+            contentType: "application/json",
+            type: "post",
+            url: "http://localhost:8080/api/rating",
+            data: JSON.stringify(data),
 
-
-    function dropdownMenu() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
+            success: function (data) {
+                alert("Data save: " + data);
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+                alert("Failed to send, please try again!");
             }
-        }
+        });
+
     }
+
+    function addComment(){
+        var newComment = document.getElementById("myTextarea").value;
+        let player = /*[[${@userController.loggedUser.login}]]*/ 'Player';
+        var data = {
+            game: "color_sudoku",
+            player: player,
+            comment: newComment,
+            commentedOn: Date.now(),
+        };
+        $.ajax({
+            contentType: "application/json",
+            type: "post",
+            url: "http://localhost:8080/api/comment",
+            data: JSON.stringify(data),
+
+            success: function (data) {
+                alert("Data save: " + data);
+                document.getElementById("comment").style.display = "none";
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+                alert("Failed to send, please try again!");
+            }
+        });
+    }
+
+
+    /*]]>*/
 </script>
+
 </body>
 </html>

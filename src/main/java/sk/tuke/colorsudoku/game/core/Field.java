@@ -280,7 +280,18 @@ public class Field {
     }
 
     public int getScore(){
-        return 4000 - getPlayingTime();
+        if (numberOfHints == 3){
+            return 4000 - getPlayingTime();
+        }
+        else if (numberOfHints == 4){
+            return 3000 - getPlayingTime();
+        }
+        else if (numberOfHints == 5){
+            return 2000 - getPlayingTime();
+        }
+        else return 1000 - getPlayingTime();
+
+
     }
 
 

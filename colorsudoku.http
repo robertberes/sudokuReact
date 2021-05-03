@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "game": "color_sudoku",
-  "player": "robo",
-  "rating": 1,
+  "player": "robko",
+  "rating": 5,
   "rated_on": "2020-12-25T12:40:50"
 }
 
@@ -29,7 +29,7 @@ Content-Type: application/json
   "game": "color_sudoku",
   "player": "robob",
   "points": 4000,
-  "playedOn": "2020-12-25T12:40:50"
+  "played_at": "2020-12-25T12:40:50"
 }
 
 ###
@@ -48,5 +48,20 @@ Accept: application/json
 GET http://localhost:8080/api/comment/color_sudoku
 Accept: application/json
 
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "password": "heslo1234",
+  "registered_on": "2020-12-25T12:40:50",
+  "show_tips": true,
+  "username": "robo1"
 
 
+
+}
+
+###
+GET http://localhost:8080/api/users/robo
+Accept: application/json

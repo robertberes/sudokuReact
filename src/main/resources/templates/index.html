@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Color Sudoku</title>
-    <link rel="stylesheet" href="/static/css/stylesheet.css"/>
+    <meta charset="UTF-8">
+    <title>Colorsudoku</title>
+    <link rel="stylesheet" href="/css/stylesheet.css"/>
 </head>
 <body>
-<h1>Welcome to Gamestudio!</h1>
-<div th:if="${@userController.logged}">
-    You are logged as <span th:text="${@userController.loggedUser}"/>.
-    <a href="/user/logout">Logout</a>
-</div>
-<div th:if="${not @userController.logged}">
-    <form method="get" action="/user/login">
-        Login: <input name="login" type="text"/>
-        <input type="submit" value="Login">
-    </form>
-</div>
-    <h1>Our favorite games</h1>
-    <ol>
-        <li><a href="/colorsudoku/new">Color Sudoku</a> </li>
-    </ol>
+<!--/*@thymesVar id="userController" type="sk.tuke.colorsudoku.server.controller.UserController"*/-->
 
+<div th:replace="fragments::header"/>
+
+<span th:if="not ${@userController.logged}">
+        <form action="/login" method="post">
+            Login: <input type="text" name="login"/><br/>
+            Password: <input type="password" name="password"/><br/>
+            <input type="submit"/>
+        </form>
+    </span>
+
+<h2>Our favorite games</h2>
+<ul>
+    <li><a href="/colorsudoku/new?difficulty=1">Colorsudoku</a></li>
+</ul>
+
+<div th:replace="fragments::footer"/>
 </body>
 </html>

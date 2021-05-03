@@ -6,7 +6,7 @@
     margin: 0px 0px 10px 0px;
 }
 body {
-    background-color: #ffffff;
+    background-color: aliceblue;
     font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Helvetica CE", sans-serif;
     color: #000000;
@@ -130,9 +130,7 @@ img {
     border-color: white;
 }
 
-.color_palette{
-    margin-right: 1px;
-}
+
 
 a.sudoku{
 
@@ -148,8 +146,8 @@ a.sudoku{
 .dropbtn {
     background-color: #3498DB;
     color: white;
-    padding: 16px;
-    font-size: 16px;
+    padding: 15px;
+    font-size: 15px;
     border: none;
     cursor: pointer;
 }
@@ -159,6 +157,8 @@ a.sudoku{
 }
 
 .dropdown {
+    flex: 0.155;
+    top: 2px;
     position: relative;
     display: inline-block;
 }
@@ -183,3 +183,104 @@ a.sudoku{
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+#colorPalette{
+    background-color: lightblue;
+    padding-top: 4px;
+}
+
+.rating {
+    width: 300px;
+    margin: 0 auto 1em;
+    font-size: 45px;
+    overflow:hidden;
+}
+.rating input {
+    float: right;
+    opacity: 0;
+    position: absolute;
+}
+.rating a,
+.rating label {
+    float:right;
+    color: #aaa;
+    text-decoration: none;
+    -webkit-transition: color .4s;
+    -moz-transition: color .4s;
+    -o-transition: color .4s;
+    transition: color .4s;
+}
+.rating label:hover ~ label,
+.rating input:focus ~ label,
+.rating label:hover,
+.rating a:hover,
+.rating a:hover ~ a,
+.rating a:focus,
+.rating a:focus ~ a		{
+    color: orange;
+    cursor: pointer;
+}
+.rating2 {
+    direction: rtl;
+}
+.rating2 a {
+    float:none;
+}
+
+#mainContent{
+    display: flex;
+}
+
+#panel{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+#operationPanel{
+    flex: 0.154;
+    padding-top: 31px;
+}
+
+#operation{
+    margin-right: 45px;
+}
+
+#hintsPanel{
+    overflow: hidden;
+    padding-top: 31px;
+    flex: 0.154;
+}
+
+#howToPlay{
+    display: none;
+}
+
+.howToPlayText{
+    font-weight: bold;
+    cursor: help;
+}
+
+#win{
+    display: none;
+}
+
+#stars{
+    display: none;
+}
+
+#comment{
+    display: none;
+}
+
+#database{
+    display: flex;
+    align-items: flex-start;
+}
+
+#scoreDiv{
+    display: none;
+}
+
+#commentDiv{
+    display: none;
+}

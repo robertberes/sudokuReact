@@ -11,7 +11,9 @@ import org.springframework.web.context.WebApplicationContext;
 import sk.tuke.colorsudoku.entity.Score;
 import sk.tuke.colorsudoku.game.core.*;
 import sk.tuke.colorsudoku.service.CommentService;
+import sk.tuke.colorsudoku.service.RatingService;
 import sk.tuke.colorsudoku.service.ScoreService;
+import sk.tuke.colorsudoku.service.UserService;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +29,12 @@ public class ColorSudokuController {
     private CommentService commentService;
 
     @Autowired
+    private RatingService ratingService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserController userController;
 
     private Field field;
@@ -39,10 +47,10 @@ public class ColorSudokuController {
     public String colorSudoku(@RequestParam(required = false) String color, @RequestParam(required = false) String row, @RequestParam(required = false) String column, Model model, @RequestParam(required = false) String difficulty){
         if (field == null){
             if (difficulty == "1" || difficulty == "2" || difficulty == "3"){
-                newGame(difficulty);
+                newGame(difficulty, model);
             }
             else {
-                newGame("1");
+                newGame("1", model);
             }
 
         }
@@ -60,8 +68,8 @@ public class ColorSudokuController {
                         field.fillTile(Integer.parseInt(row), Integer.parseInt(column),  TileColor.getTileColor(savedColor));
                         if (userController.isLogged() && field.getGameState() == GameState.SOLVED) {
                             scoreService.addScore(new Score(
-                                    userController.getLoggedUser(),
                                     "color_sudoku",
+                                    userController.getLoggedUser().getUsername(),
                                     field.getScore(),
                                     new Date()
                             ));
@@ -79,12 +87,13 @@ public class ColorSudokuController {
     }
 
     @RequestMapping("/new")
-    public String newGame(String difficulty){
+    public String newGame(String difficulty, Model model){
         field = new Field();
         if (difficulty == null){
             difficulty = "1";
         }
         field.setDifficulty(Integer.parseInt(difficulty));
+        prepareModel(model);
         return "colorsudoku";
     }
 
@@ -92,6 +101,19 @@ public class ColorSudokuController {
     public String changeNoting(){
         noting = !noting;
         return "colorsudoku";
+    }
+
+
+
+//    @RequestMapping(value = "" ,params = "color", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String getNewColor(@RequestParam(required = false) String color){
+//        savedColor = color;
+//        return savedColor;
+//    }
+
+    public void setSavedColor(String color){
+        savedColor = color;
     }
 
     public List getColors(){
@@ -104,10 +126,15 @@ public class ColorSudokuController {
     public GameState getGameState() {
         return field.getGameState();
     }
+    public String getScore() {
+        return String.valueOf(field.getScore());
+    }
 
     public boolean isSolved(){
         return field.getGameState() == GameState.SOLVED;
     }
+
+    public boolean isFailed() { return field.getGameState() == GameState.FAILED;}
 
     public String getNumberOfHints(){
         int hints = field.getNumberOfHints();
@@ -200,5 +227,15 @@ public class ColorSudokuController {
 
         model.addAttribute("scores", scoreService.getTopScores("color_sudoku"));
         model.addAttribute("comments", commentService.getComments("color_sudoku"));
+        model.addAttribute("rating", ratingService.getAverageRating("color_sudoku"));
+//        model.addAttribute("myRating", ratingService.getRating("color_sudoku",userController.getLoggedUser().getLogin()));
+    }
+
+    public int getRating(){
+        return ratingService.getAverageRating("color_sudoku");
+    }
+
+    public UserService getUserService() {
+        return userService;
     }
 }

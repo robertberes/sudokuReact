@@ -1,39 +1,60 @@
 package sk.tuke.colorsudoku.server.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
+import sk.tuke.colorsudoku.entity.Users;
+import sk.tuke.colorsudoku.service.UserService;
+
+import java.util.Date;
 
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
-    private String loggedUser;
+
+    @Autowired
+    private UserService userService;
+
+    private Users loggedUsers;
 
     @RequestMapping("/")
     public String index() {
         return "index";
     }
 
+
     @RequestMapping("/login")
-    public String login(String login, Model model) {
-        loggedUser = login;
+    public String login(String login, String password) {
+        if ("heslo".equals(password)) {
+            loggedUsers = new Users(login,password,true, new Date());
+            return "redirect:/colorsudoku/new?difficulty=1";
+        }
+
         return "redirect:/";
+    }
+    @RequestMapping("/registration")
+    public String registration(String login, String password){
+        return "redirect:/login";
     }
 
     @RequestMapping("/logout")
-    public String logout(Model model) {
-        loggedUser = null;
+    public String logout() {
+        loggedUsers = null;
         return "redirect:/";
     }
 
-    public String getLoggedUser() {
-        return loggedUser;
+    public Users getLoggedUser() {
+        return loggedUsers;
     }
 
     public boolean isLogged() {
-        return loggedUser != null;
+        return loggedUsers != null;
+    }
+
+    public UserService getUserService() {
+        return userService;
     }
 }
