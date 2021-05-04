@@ -12,6 +12,8 @@ import java.util.Date;
         query = "SELECT u from Users u where u.username=:username")
 @NamedQuery( name = "Users.reset",
         query = "DELETE FROM Users")
+@NamedQuery( name = "Users.getUsernames",
+        query = "SELECT username FROM Users")
 public class Users implements Serializable {
     @Id
     @GeneratedValue

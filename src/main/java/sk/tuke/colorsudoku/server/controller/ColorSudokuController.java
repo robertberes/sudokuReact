@@ -44,7 +44,8 @@ public class ColorSudokuController {
     private String savedColor = null;
 
     @RequestMapping
-    public String colorSudoku(@RequestParam(required = false) String color, @RequestParam(required = false) String row, @RequestParam(required = false) String column, Model model, @RequestParam(required = false) String difficulty){
+    public String colorSudoku(@RequestParam(required = false) String color, @RequestParam(required = false) String row,
+                              @RequestParam(required = false) String column, Model model, @RequestParam(required = false) String difficulty){
         if (field == null){
             if (difficulty == "1" || difficulty == "2" || difficulty == "3"){
                 newGame(difficulty, model);
@@ -69,7 +70,7 @@ public class ColorSudokuController {
                         if (userController.isLogged() && field.getGameState() == GameState.SOLVED) {
                             scoreService.addScore(new Score(
                                     "color_sudoku",
-                                    userController.getLoggedUser().getUsername(),
+                                    userController.getLoggedUsers().getUsername(),
                                     field.getScore(),
                                     new Date()
                             ));
@@ -103,14 +104,6 @@ public class ColorSudokuController {
         return "colorsudoku";
     }
 
-
-
-//    @RequestMapping(value = "" ,params = "color", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String getNewColor(@RequestParam(required = false) String color){
-//        savedColor = color;
-//        return savedColor;
-//    }
 
     public void setSavedColor(String color){
         savedColor = color;

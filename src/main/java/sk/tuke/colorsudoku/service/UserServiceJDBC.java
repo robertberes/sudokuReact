@@ -13,7 +13,7 @@ public class UserServiceJDBC implements UserService{
     public static final String SELECT = "SELECT username, passwords, show_tips, registered_on FROM users WHERE username = ?";
     public static final String DELETE = "DELETE FROM users";
     public static final String INSERT = "INSERT INTO users (username, passwords, show_tips, registered_on) VALUES (?, ?, ?, ?)";
-
+    public static final String SELECT1 = "SELECT username FROM users";
 
     @Override
     public void addUser(Users users) throws UserException {
@@ -62,4 +62,23 @@ public class UserServiceJDBC implements UserService{
             throw new RatingException("Problem deleting users", e);
         }
     }
+
+    @Override
+    public List<String> getUsernames() throws UserException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(SELECT1)
+        ) {
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                List<String> usernames = new ArrayList<>();
+                usernames.add(rs.getString(1));
+
+                return usernames;
+            }
+        } catch (SQLException e) {
+            throw new RatingException("Problem selecting user", e);
+        }
+    }
+
+
 }

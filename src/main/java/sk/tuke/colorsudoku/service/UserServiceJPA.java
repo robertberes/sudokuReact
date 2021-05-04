@@ -5,6 +5,7 @@ import sk.tuke.colorsudoku.entity.Users;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 public class UserServiceJPA implements UserService{
@@ -26,4 +27,10 @@ public class UserServiceJPA implements UserService{
     public void reset() {
 
     }
+
+    @Override
+    public List<String> getUsernames() throws UserException {
+        return entityManager.createNamedQuery("Users.getUsernames").getResultList();
+    }
+
 }

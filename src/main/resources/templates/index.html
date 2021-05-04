@@ -11,12 +11,13 @@
 
 <div th:replace="fragments::header"/>
 
-<span th:if="not ${@userController.logged}">
-        <form action="/login" method="post">
-            Login: <input type="text" name="login"/><br/>
-            Password: <input type="password" name="password"/><br/>
-            <input type="submit"/>
+<span id="login" th:if="not ${@userController.logged}">
+        <form class="myForm" action="/login" method="post">
+            <label class="labels" for="username">Login:</label> <input class="inputs" id="username" type="text" name="username" placeholder="Your login"/><br/>
+            <label class="labels" for="password">Password:</label> <input class="inputs" id="password" type="password" name="password" placeholder="Your password"/><br/>
+            <input type="submit" value="Log In"/>
         </form>
+        <a href="/registration">Registration</a>
     </span>
 
 <h2>Our favorite games</h2>
@@ -25,5 +26,9 @@
 </ul>
 
 <div th:replace="fragments::footer"/>
+
+<script>
+
+</script>
 </body>
 </html>

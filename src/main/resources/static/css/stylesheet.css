@@ -251,25 +251,10 @@ a.sudoku{
     flex: 0.154;
 }
 
-#howToPlay{
-    display: none;
-}
 
 .howToPlayText{
     font-weight: bold;
     cursor: help;
-}
-
-#win{
-    display: none;
-}
-
-#stars{
-    display: none;
-}
-
-#comment{
-    display: none;
 }
 
 #database{
@@ -277,10 +262,41 @@ a.sudoku{
     align-items: flex-start;
 }
 
-#scoreDiv{
+#scoreDiv, #commentDiv, #comment, #stars, #win, #howToPlay{
     display: none;
 }
 
-#commentDiv{
-    display: none;
+
+input[type="submit" i], #submit {
+    appearance: auto;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+    cursor: default;
+    color: white;
+    background-color: dimgray;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgb(118, 118, 118);
+    border-image: initial;
+}
+#submit:hover{
+    background-color: darkgray;
+}
+
+.myForm{
+    padding: 15px;
+    background: cornsilk;
+    width: 200px
+}
+
+.labels{
+    padding: 5px;
+}
+
+.inputs {
+    margin-bottom: 5px;
 }

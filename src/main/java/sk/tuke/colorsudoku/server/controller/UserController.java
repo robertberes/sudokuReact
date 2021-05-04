@@ -9,6 +9,9 @@ import sk.tuke.colorsudoku.entity.Users;
 import sk.tuke.colorsudoku.service.UserService;
 
 import java.util.Date;
+import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
@@ -25,19 +28,37 @@ public class UserController {
         return "index";
     }
 
+    @RequestMapping("/registration")
+    public String registration() {  return "registration"; }
+
 
     @RequestMapping("/login")
-    public String login(String login, String password) {
-        if ("heslo".equals(password)) {
-            loggedUsers = new Users(login,password,true, new Date());
-            return "redirect:/colorsudoku/new?difficulty=1";
+    public String login(String username, String password) {
+        for (String temp : userService.getUsernames()){
+            if (temp.equals(username)) {
+                if (userService.getPassword(temp).equals(password)){
+                    loggedUsers = new Users(username,password,true, new Date());
+                    return "redirect:/colorsudoku/new?difficulty=1";
+                }
+
+            }
         }
+
 
         return "redirect:/";
     }
-    @RequestMapping("/registration")
-    public String registration(String login, String password){
-        return "redirect:/login";
+    @RequestMapping("/reg")
+    public String registration(String username, String password, String password2){
+        if(password.equals(password2)){
+            try {
+                userService.addUser(new Users(username,password,true,new Date()));
+            } catch (Exception e) {
+                return "redirect:/registration";
+            }
+
+        }
+
+        return "redirect:/";
     }
 
     @RequestMapping("/logout")
@@ -46,7 +67,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    public Users getLoggedUser() {
+    public Users getLoggedUsers() {
         return loggedUsers;
     }
 
