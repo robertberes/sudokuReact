@@ -3,7 +3,7 @@
     background-color: #036fab;
     color: white;
     padding: 5px;
-    margin: 0px 0px 10px 0px;
+    margin: 0 0 10px 0;
 }
 body {
     background-color: aliceblue;
@@ -17,8 +17,8 @@ h1 {
     font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
     font-size:  28px;
     font-weight: bold;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     color: #045491;
 }
 
@@ -26,8 +26,8 @@ h2 {
     font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
     font-size:  16px;
     font-weight: bold;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     color: #045491;
 }
 
@@ -157,7 +157,6 @@ a.sudoku{
 }
 
 .dropdown {
-    flex: 0.155;
     top: 2px;
     position: relative;
     display: inline-block;
@@ -169,8 +168,9 @@ a.sudoku{
     background-color: #f1f1f1;
     min-width: 160px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
+    margin-top: 200px;
 }
 
 .dropdown-content a {
@@ -193,7 +193,7 @@ a.sudoku{
     width: 300px;
     margin: 0 auto 1em;
     font-size: 45px;
-    overflow:hidden;
+    overflow: hidden;
 }
 .rating input {
     float: right;
@@ -203,7 +203,7 @@ a.sudoku{
 .rating a,
 .rating label {
     float:right;
-    color: #aaa;
+    color: white;
     text-decoration: none;
     -webkit-transition: color .4s;
     -moz-transition: color .4s;
@@ -219,6 +219,7 @@ a.sudoku{
 .rating a:focus ~ a		{
     color: orange;
     cursor: pointer;
+    text-decoration: none;
 }
 .rating2 {
     direction: rtl;
@@ -229,26 +230,33 @@ a.sudoku{
 
 #mainContent{
     display: flex;
+    justify-content: space-between;
+    padding-inline: 40px;
 }
 
 #panel{
     display: flex;
-    margin-bottom: 5px;
+    justify-content: space-between;
+    background-color: lightblue;
+    max-width: 580px;
 }
 
 #operationPanel{
-    flex: 0.154;
-    padding-top: 31px;
+    padding-top: 10px;
+    margin-left: 60px;
 }
 
 #operation{
     margin-right: 45px;
+    background-color: lightblue;
+    display: flex;
+    align-items: baseline;
 }
 
 #hintsPanel{
     overflow: hidden;
-    padding-top: 31px;
-    flex: 0.154;
+    padding-top: 10px;
+    margin-right: 25px;
 }
 
 
@@ -257,13 +265,17 @@ a.sudoku{
     cursor: help;
 }
 
-#database{
+#rightSide{
     display: flex;
     align-items: flex-start;
+    flex-direction: column;
 }
 
-#scoreDiv, #commentDiv, #comment, #stars, #win, #howToPlay{
+#comment, #stars, #win, #howToPlay, #lose{
     display: none;
+    padding: 15px;
+    background: darkseagreen;
+    font-size: 13px;
 }
 
 
@@ -299,4 +311,44 @@ input[type="submit" i], #submit {
 
 .inputs {
     margin-bottom: 5px;
+}
+
+#center{
+    display: flex;
+    flex-direction: column;
+    max-width: 580px;
+}
+
+.myList{
+    padding: 5px;
+}
+
+.submit:hover{
+    background-color: darkgray;
+}
+
+.howToPlayButton{
+    padding: 5px;
+    padding-inline: 10px;
+    color: white;
+    background-color: dodgerblue;
+    border: none;
+}
+
+.stars{
+    text-decoration: none;
+}
+
+#submitComment{
+    padding: 5px;
+    padding-inline: 10px;
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    max-width: 62px;
+    margin-top: 5px;
+}
+
+#myTextarea{
+    max-width: 450px;
 }

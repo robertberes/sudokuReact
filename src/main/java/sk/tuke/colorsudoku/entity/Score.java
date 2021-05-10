@@ -11,6 +11,8 @@ import java.util.Date;
 @Entity
 @NamedQuery( name = "Score.getTopScores",
         query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
+@NamedQuery( name = "Score.getTopScores1",
+        query = "SELECT s FROM Score s WHERE s.game=:game AND s.difficulty=:difficulty ORDER BY s.points DESC")
 @NamedQuery( name = "Score.reset",
         query = "DELETE FROM Score")
 public class Score implements Serializable {
@@ -25,9 +27,19 @@ public class Score implements Serializable {
     private int points;
 
     private Date played_at;
+
+    private String difficulty;
+
     public Score(){}
 
-    public Score(String game, String player, int points, Date played_at) {
+    public Score(String game, String player, int points, Date played_at, String difficulty) {
+        this.game = game;
+        this.player = player;
+        this.points = points;
+        this.played_at = played_at;
+        this.difficulty = difficulty;
+    }
+    public Score(String game, String player, int points, Date played_at){
         this.game = game;
         this.player = player;
         this.points = points;
@@ -82,7 +94,15 @@ public class Score implements Serializable {
                 ", player='" + player + '\'' +
                 ", points=" + points +
                 ", played_at=" + played_at +
+                ", difficulty=" + difficulty + '\'' +
                 '}';
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 }

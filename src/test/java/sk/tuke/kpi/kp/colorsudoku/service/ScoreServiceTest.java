@@ -26,7 +26,7 @@ public class ScoreServiceTest {
         ScoreService service = createService();
         service.reset();
         Date date = new Date();
-        service.addScore(new Score("color_sudoku", "Jaro", 200, date));
+        service.addScore(new Score("color_sudoku", "Jaro", 200, date,"1"));
 
         List<Score> scores = service.getTopScores("color_sudoku");
 
@@ -43,9 +43,9 @@ public class ScoreServiceTest {
         ScoreService service = createService();
         service.reset();
         Date date = new Date();
-        service.addScore(new Score("color_sudoku", "Jaro", 200, date));
-        service.addScore(new Score("color_sudoku", "Fero", 400, date));
-        service.addScore(new Score("color_sudoku", "Jozo", 100, date));
+        service.addScore(new Score("color_sudoku", "Jaro", 200, date,"1"));
+        service.addScore(new Score("color_sudoku", "Fero", 400, date,"1"));
+        service.addScore(new Score("color_sudoku", "Jozo", 100, date,"1"));
 
         List<Score> scores = service.getTopScores("color_sudoku");
 
@@ -71,7 +71,7 @@ public class ScoreServiceTest {
     public void testAddScore10() {
         ScoreService service = createService();
         for (int i = 0; i < 20; i++)
-            service.addScore(new Score("color_sudoku", "Jaro", 200, new Date()));
+            service.addScore(new Score("color_sudoku", "Jaro", 200, new Date(),"1"));
         assertEquals(10, service.getTopScores("color_sudoku").size());
     }
 
@@ -79,7 +79,7 @@ public class ScoreServiceTest {
     public void testPersistance() {
         ScoreService service = createService();
         service.reset();
-        service.addScore(new Score("color_sudoku", "Jaro", 200, new Date()));
+        service.addScore(new Score("color_sudoku", "Jaro", 200, new Date(),"1"));
 
         service = createService();
         assertEquals(1, service.getTopScores("color_sudoku").size());

@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @NamedQuery( name = "Rating.getAverageRating",
-        query = "SELECT avg(s.rating) from Rating s where s.game=:game")
+        query = "SELECT avg(s.rating) from Rating s where s.game=:game and s.rating > 0")
 @NamedQuery( name = "Rating.resetRating",
         query = "DELETE FROM Rating ")
 @NamedQuery( name = "Rating.getRating",

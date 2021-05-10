@@ -5,35 +5,17 @@ function changeColor() {
     return false;
 }
 
-function showScores() {
-    var x = document.getElementById("scoreDiv");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-
-function showComments() {
-    var x = document.getElementById("commentDiv");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-
 
 function dropdownMenu() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
-window.onclick = function (event) {
+window.onclick = function (event) { // dropdown menu
     if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
+        let dropdowns = document.getElementsByClassName("dropdown-content");
+        let i;
         for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
+            let openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
@@ -50,12 +32,12 @@ function changeBack(divId){
         document.getElementById(divId).style.backgroundColor = "lightblue";
     }
     else {
-        document.getElementById(divId).style.backgroundColor = "aliceblue";
+        document.getElementById(divId).style.backgroundColor = "lightblue";
     }
 
 }
 
-function generateField(){
+function generateField(){ // hides howToPlay and shows sudoku field
     if (window.location.href !== "http://localhost:8080/colorsudoku/new"){
         document.getElementById("howToPlay").style.display = "none";
         document.getElementById("sud").style.display = "block";
@@ -84,7 +66,11 @@ function highlightBackground(divId){
 
 function showCommentForm(){
     if (document.getElementById("comment").style.display === "none"){
-        document.getElementById("comment").style.display = "block";
+        if (document.getElementById("stars").style.display === "block"){
+            document.getElementById("stars").style.display = "none";
+        }
+        document.getElementById("comment").style.display = "flex";
+        document.getElementById("comment").style.flexDirection = "column";
     }
     else {
         document.getElementById("comment").style.display = "none";
@@ -96,6 +82,9 @@ function showCommentForm(){
 
 function rateMyGame(){
     if (document.getElementById("stars").style.display === "none"){
+        if (document.getElementById("comment").style.display === "flex"){
+            document.getElementById("comment").style.display = "none";
+        }
         document.getElementById("stars").style.display = "block";
     }
     else {

@@ -12,10 +12,13 @@ public class Field {
     private final Tile[][] finalTiles;
     private final Tile[][] gameTiles;
     private final int FIELD_DIMENSION = 9;
+    private final int EASY = 1;
+    private final int MEDIUM = 2;
+    private final int HARD = 3;
+    private final int TEST = 99;
     private int numberOfFilledTiles;
     private int numberOfHints;
     private long startMillis;
-    //private boolean unsupportedGameDifficulty = false;
 
 
 
@@ -31,7 +34,6 @@ public class Field {
     private void generate(){
 
         generateFinalField();
-        //setDifficulty(difficulty);
 
     }
 
@@ -84,14 +86,7 @@ public class Field {
         }
 
         tileColor = TileColor.getRandomFromList(missingColors);
-        //TileColor firstColor = TileColor.getRandomFromList(missingColors);
 
-//        if (column == 9){
-//            firstColor = tileColor;
-//        }
-//        if (column == 0 && row > 0){
-//            tileColor = firstColor;
-//        }
 
         listOfColors.clear();
         listOfColorsWithoutDuplicates.clear();
@@ -141,31 +136,27 @@ public class Field {
         int minimumWhiteTiles;
         int maximumWhiteTiles;
 
-        if (difficulty == 1) {
+        if (difficulty == EASY) {
             minimumWhiteTiles = 3;
             maximumWhiteTiles = 5;
+            setNumberOfHints(6);
+            hideColors(minimumWhiteTiles,maximumWhiteTiles);
+        }
+        if (difficulty == MEDIUM){
+            minimumWhiteTiles = 4;
+            maximumWhiteTiles = 6;
             setNumberOfHints(5);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
-        if (difficulty == 2){
-            minimumWhiteTiles = 4;
-            maximumWhiteTiles = 6;
+        if (difficulty == HARD){
+            minimumWhiteTiles = 5;
+            maximumWhiteTiles = 7;
             setNumberOfHints(4);
             hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
-        if (difficulty == 3){
-            minimumWhiteTiles = 5;
-            maximumWhiteTiles = 7;
-            setNumberOfHints(3);
-            hideColors(minimumWhiteTiles,maximumWhiteTiles);
-        }
-        if (difficulty == 99){ //difficulty for testing
+        if (difficulty == TEST){ //difficulty for testing
             gameTiles[0][0]= new EmptyTile();
             setNumberOfHints(10);
-//            minimumWhiteTiles = 0;
-//            maximumWhiteTiles = 1;
-//            setNumberOfHints(5);
-//            hideColors(minimumWhiteTiles,maximumWhiteTiles);
         }
         startMillis = System.currentTimeMillis();
     }

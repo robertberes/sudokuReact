@@ -23,4 +23,9 @@ public class ScoreServiceRest {
     public void addScore(@RequestBody Score score) {
         scoreService.addScore(score);
     }
+
+    @GetMapping("/{game}/{difficulty}")
+    public List<Score> getTopScoresDiff(@PathVariable String game, @PathVariable String difficulty){
+        return scoreService.getTopScoresDiff(game, difficulty);
+    }
 }

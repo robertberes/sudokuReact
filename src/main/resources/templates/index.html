@@ -10,20 +10,30 @@
 <!--/*@thymesVar id="userController" type="sk.tuke.colorsudoku.server.controller.UserController"*/-->
 
 <div th:replace="fragments::header"/>
-
-<span id="login" th:if="not ${@userController.logged}">
+<div style="display: flex">
+    <div>
+    <span id="login" th:if="not ${@userController.logged}">
         <form class="myForm" action="/login" method="post">
-            <label class="labels" for="username">Login:</label> <input class="inputs" id="username" type="text" name="username" placeholder="Your login"/><br/>
-            <label class="labels" for="password">Password:</label> <input class="inputs" id="password" type="password" name="password" placeholder="Your password"/><br/>
-            <input type="submit" value="Log In"/>
+            <label class="labels" for="username">Login:</label>
+            <input class="inputs" id="username" type="text" name="username" placeholder="Your login"/><br/>
+            <label class="labels" for="password">Password:</label>
+            <input class="inputs" id="password" type="password" name="password" placeholder="Your password"/><br/>
+            <input class="submit" type="submit" value="Log In"/>
+            <a href="/registration">Registration</a>
         </form>
-        <a href="/registration">Registration</a>
-    </span>
 
-<h2>Our favorite games</h2>
-<ul>
-    <li><a href="/colorsudoku/new?difficulty=1">Colorsudoku</a></li>
-</ul>
+    </span>
+    </div>
+
+    <div style="margin-left: 20px; margin-top: 20px">
+        <h2>Our favorite games</h2>
+        <ul>
+            <li><a href="/colorsudoku/new?difficulty=1">Colorsudoku</a></li>
+        </ul>
+    </div>
+</div>
+
+
 
 <div th:replace="fragments::footer"/>
 

@@ -66,13 +66,13 @@ public class ConsoleUI {
         if (field.getGameState() == GameState.SOLVED){
             System.out.println("You solved the sudoku");
             scoreService.addScore(
-                    new Score(GAME_NAME, System.getProperty("user.name"), field.getScore(), new Date())
+                    new Score(GAME_NAME, System.getProperty("user.name"), field.getScore(), new Date(),"1")
             );
         }
         else {
             System.out.println("You failed");
             scoreService.addScore(
-                    new Score(GAME_NAME, System.getProperty("user.name"), 0, new Date())
+                    new Score(GAME_NAME, System.getProperty("user.name"), 0, new Date(),"1")
             );
         }
 

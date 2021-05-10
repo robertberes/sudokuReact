@@ -39,20 +39,23 @@ public class ColorSudokuController {
 
     private Field field;
     private final int FIELD_DIMENSION = 9;
+    private final String GAME_NAME = "color_sudoku";
     private boolean noting = false;
     private List colors;
     private String savedColor = null;
+    private String stringDifficulty = null;
 
     @RequestMapping
     public String colorSudoku(@RequestParam(required = false) String color, @RequestParam(required = false) String row,
                               @RequestParam(required = false) String column, Model model, @RequestParam(required = false) String difficulty){
         if (field == null){
-            if (difficulty == "1" || difficulty == "2" || difficulty == "3"){
+            if (difficulty.equals("1") || difficulty.equals("2") || difficulty.equals("3")){
                 newGame(difficulty, model);
             }
             else {
                 newGame("1", model);
             }
+
 
         }
         if (color != null){
@@ -69,10 +72,11 @@ public class ColorSudokuController {
                         field.fillTile(Integer.parseInt(row), Integer.parseInt(column),  TileColor.getTileColor(savedColor));
                         if (userController.isLogged() && field.getGameState() == GameState.SOLVED) {
                             scoreService.addScore(new Score(
-                                    "color_sudoku",
+                                    GAME_NAME,
                                     userController.getLoggedUsers().getUsername(),
                                     field.getScore(),
-                                    new Date()
+                                    new Date(),
+                                    getStringDifficulty()
                             ));
                         }
                     }
@@ -83,7 +87,7 @@ public class ColorSudokuController {
 
             }
         }
-        prepareModel(model);
+        prepareModel(model, stringDifficulty);
         return "colorsudoku";
     }
 
@@ -93,44 +97,25 @@ public class ColorSudokuController {
         if (difficulty == null){
             difficulty = "1";
         }
+        setStringDifficulty(difficulty);
         field.setDifficulty(Integer.parseInt(difficulty));
-        prepareModel(model);
+        prepareModel(model, difficulty);
         return "colorsudoku";
     }
 
     @RequestMapping("/note")
-    public String changeNoting(){
+    public String changeNoting(Model model){
         noting = !noting;
+        prepareModel(model, stringDifficulty);
         return "colorsudoku";
     }
 
 
-    public void setSavedColor(String color){
-        savedColor = color;
-    }
-
-    public List getColors(){
-        return colors;
-    }
-    public boolean isNoting() {
-        return noting;
-    }
-
-    public GameState getGameState() {
-        return field.getGameState();
-    }
-    public String getScore() {
-        return String.valueOf(field.getScore());
-    }
-
-    public boolean isSolved(){
-        return field.getGameState() == GameState.SOLVED;
-    }
-
-    public boolean isFailed() { return field.getGameState() == GameState.FAILED;}
-
     public String getNumberOfHints(){
-        int hints = field.getNumberOfHints();
+        int hints = field.getNumberOfHints() - 1;
+        if (hints < 0){
+            return String.valueOf(0);
+        }
         return String.valueOf(hints);
     }
 
@@ -152,7 +137,7 @@ public class ColorSudokuController {
                 }
 
                 sb.append(String.format("<a class=\"sudoku\" href='/colorsudoku?row=%d&column=%d'>\n", row, column));
-                if (getImageName(tile) != "noted"){
+                if (!getImageName(tile).equals("noted")){
                     sb.append("<img id=\"sud\" src='/images/tiles/" + getImageName(tile) + ".png'>");
                 }
 
@@ -200,7 +185,7 @@ public class ColorSudokuController {
     }
 
     private List<TileColor> getNotedColors(Tile tile){
-        List<TileColor> notedColors = null;
+        List<TileColor> notedColors;
         if (tile instanceof NotedTile){
             if (((NotedTile) tile).getNotedColors() == null){
                 return null;
@@ -211,24 +196,62 @@ public class ColorSudokuController {
             getImageName(tile);
             return null;
         }
-        int i=0;
 
         return notedColors;
     }
 
-    private void prepareModel(Model model){
+    private void prepareModel(Model model, String diff){
 
-        model.addAttribute("scores", scoreService.getTopScores("color_sudoku"));
-        model.addAttribute("comments", commentService.getComments("color_sudoku"));
-        model.addAttribute("rating", ratingService.getAverageRating("color_sudoku"));
-//        model.addAttribute("myRating", ratingService.getRating("color_sudoku",userController.getLoggedUser().getLogin()));
+        model.addAttribute("scores", scoreService.getTopScoresDiff(GAME_NAME, diff));
+        model.addAttribute("comments", commentService.getComments(GAME_NAME));
+        model.addAttribute("rating", ratingService.getAverageRating(GAME_NAME));
+        model.addAttribute("myRating", ratingService.getRating(GAME_NAME,userController.getLoggedUsers().getUsername()));
+
     }
 
     public int getRating(){
-        return ratingService.getAverageRating("color_sudoku");
+        return ratingService.getAverageRating(GAME_NAME);
+    }
+
+    public int getUserRating(){
+        return ratingService.getRating(GAME_NAME, userController.getLoggedUsers().getUsername());
     }
 
     public UserService getUserService() {
         return userService;
     }
+
+    public String getStringDifficulty() {
+        return stringDifficulty;
+    }
+
+    private void setStringDifficulty(String stringDifficulty) {
+        this.stringDifficulty = stringDifficulty;
+    }
+
+    public void setSavedColor(String color){
+        savedColor = color;
+    }
+
+    public List getColors(){
+        return colors;
+    }
+
+    public boolean isNoting() {
+        return noting;
+    }
+
+    public GameState getGameState() {
+        return field.getGameState();
+    }
+
+    public String getScore() {
+        return String.valueOf(field.getScore());
+    }
+
+    public boolean isSolved(){
+        return field.getGameState() == GameState.SOLVED;
+    }
+
+    public boolean isFailed() { return field.getGameState() == GameState.FAILED;}
 }

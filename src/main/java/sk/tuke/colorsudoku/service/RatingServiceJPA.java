@@ -24,7 +24,7 @@ public class RatingServiceJPA implements RatingService{
 
     @Override
     public int getAverageRating(String game) throws RatingException {
-        return (int) Math.round((Double) entityManager.createQuery("select avg(rating) from Rating where game like :game").setParameter("game", game).getSingleResult());
+        return (int) Math.round((Double) entityManager.createQuery("select avg(rating) from Rating where game like :game and rating > 0").setParameter("game", game).getSingleResult());
     }
 
     @Override

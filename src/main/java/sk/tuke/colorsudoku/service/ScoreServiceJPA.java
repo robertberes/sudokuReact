@@ -18,6 +18,12 @@ public class ScoreServiceJPA implements ScoreService {
     }
 
     @Override
+    public List<Score> getTopScoresDiff(String game, String difficulty) throws ScoreException {
+        return entityManager.createNamedQuery("Score.getTopScores1")
+                .setParameter("game", game).setParameter("difficulty", difficulty).setMaxResults(10).getResultList();
+    }
+
+    @Override
     public List<Score> getTopScores(String game) throws ScoreException {
         return entityManager.createNamedQuery("Score.getTopScores")
                 .setParameter("game", game).setMaxResults(10).getResultList();

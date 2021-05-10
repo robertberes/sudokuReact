@@ -32,6 +32,25 @@ public class ScoreServiceJDBC implements ScoreService {
     }
 
     @Override
+    public List<Score> getTopScoresDiff(String game, String difficulty) throws ScoreException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(SELECT)
+        ) {
+            statement.setString(1, game);
+            statement.setString(2, difficulty);
+            try (ResultSet rs = statement.executeQuery()) {
+                List<Score> scores = new ArrayList<>();
+                while (rs.next()) {
+                    scores.add(new Score(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getTimestamp(4),"1"));
+                }
+                return scores;
+            }
+        } catch (SQLException e) {
+            throw new ScoreException("Problem selecting score", e);
+        }
+    }
+
+    @Override
     public List<Score> getTopScores(String game) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT)

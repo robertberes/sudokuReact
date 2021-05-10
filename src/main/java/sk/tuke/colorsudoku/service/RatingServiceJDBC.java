@@ -59,8 +59,11 @@ public class RatingServiceJDBC implements RatingService {
                 int averageRatings = 0;
                 int iterator = 0;
                 while (rs.next()) {
-                    sumOfRatings += rs.getInt(3);
-                    iterator++;
+                    if (rs.getInt(3)>0){
+                        sumOfRatings += rs.getInt(3);
+                        iterator++;
+                    }
+
                 }
                 if (sumOfRatings!=0)
                     averageRatings = sumOfRatings/iterator;
