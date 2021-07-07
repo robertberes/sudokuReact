@@ -1,20 +1,18 @@
 package sk.tuke.colorsudoku.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 
 @Entity
-@NamedQuery( name = "Score.getTopScores",
-        query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
-@NamedQuery( name = "Score.getTopScores1",
-        query = "SELECT s FROM Score s WHERE s.game=:game AND s.difficulty=:difficulty ORDER BY s.points DESC")
-@NamedQuery( name = "Score.reset",
-        query = "DELETE FROM Score")
+@NamedQueries({
+        @NamedQuery( name = "Score.getTopScores",
+                query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC"),
+        @NamedQuery( name = "Score.getTopScores1",
+                query = "SELECT s FROM Score s WHERE s.game=:game AND s.difficulty=:difficulty ORDER BY s.points DESC"),
+        @NamedQuery( name = "Score.reset",
+                query = "DELETE FROM Score")})
 public class Score implements Serializable {
     @Id
     @GeneratedValue

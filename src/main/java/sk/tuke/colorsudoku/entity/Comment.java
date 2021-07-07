@@ -1,18 +1,15 @@
 package sk.tuke.colorsudoku.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery( name = "Comment.getComments",
-        query = "SELECT c FROM Comment c WHERE c.game=:game ORDER BY c.comment DESC")
-@NamedQuery( name = "Comment.reset",
-        query = "DELETE FROM Comment ")
+@NamedQueries({
+        @NamedQuery( name = "Comment.getComments", query = "SELECT c FROM Comment c WHERE c.game=:game ORDER BY c.comment DESC"),
+        @NamedQuery( name = "Comment.reset", query = "DELETE FROM Comment ")
+})
 public class Comment implements Serializable{
     @Id
     @GeneratedValue

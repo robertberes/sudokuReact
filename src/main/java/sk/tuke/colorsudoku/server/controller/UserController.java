@@ -9,9 +9,7 @@ import sk.tuke.colorsudoku.entity.Users;
 import sk.tuke.colorsudoku.service.UserService;
 
 import java.util.Date;
-import java.util.List;
 
-import static java.lang.Integer.parseInt;
 
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)

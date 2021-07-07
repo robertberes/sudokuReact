@@ -1,9 +1,12 @@
+
+
 document.getElementsByClassName("color_palette").onclick = changeColor;
 
 function changeColor() {
     document.getElementsByClassName("color_palette").style.borderStyle = 'inset';
     return false;
 }
+
 
 
 function dropdownMenu() {

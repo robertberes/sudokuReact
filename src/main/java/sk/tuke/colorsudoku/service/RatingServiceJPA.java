@@ -6,6 +6,7 @@ import sk.tuke.colorsudoku.entity.Rating;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Transactional

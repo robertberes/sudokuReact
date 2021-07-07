@@ -1,0 +1,369 @@
+@media (min-width: 1225px) {
+
+
+    #top {
+        position: relative;
+        background-color: #036fab;
+        color: white;
+        padding: 5px;
+        margin: 0 0 10px 0;
+    }
+
+    body {
+        background-color: aliceblue;
+        font-size: 12px;
+        font-family: Verdana, "Verdana CE", Arial, "Arial CE", "Helvetica CE", sans-serif;
+        color: #000000;
+        margin: 10px;
+    }
+
+    h1 {
+        font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        color: #045491;
+    }
+
+    h2 {
+        font-family: Arial, "Arial CE", "Helvetica CE", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        color: #045491;
+    }
+
+    a:link, a:visited {
+        color: #045491;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:link:hover, a:visited:hover {
+        color: #045491;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .center_content {
+        position: relative;
+        background-color: #e0e0e0;
+        padding: 5px;
+    }
+
+    .error-message {
+        color: #d20005;
+        font-family: 'New Century Schoolbook', serif;
+        font-style: oblique;
+        text-decoration: overline;
+    }
+
+    .list-background {
+        background-color: #ffffff;
+        font-family: sans-serif;
+        font-size: 12pt;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .list-caption {
+        font-family: sans-serif;
+        font-size: 12pt;
+        font-weight: bold;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .list-column-center {
+        text-align: center;
+        width: 15%;
+    }
+
+    .list-column-left {
+        text-align: left;
+        width: 70%;
+    }
+
+    .list-column-right {
+        text-align: right;
+        width: 15%;
+    }
+
+    .list-footer {
+        background-color: #A5A5A5;
+        color: #000000;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .list-header {
+        background-color: #ffffff;
+        color: #000000;
+        text-align: center;
+    }
+
+    .list-row-even {
+    }
+
+    .list-row-odd {
+        background-color: #eaf1f8;
+    }
+
+    .special-offer {
+        font-family: sans-serif;
+        font-size: 12pt;
+        text-align: left;
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        border: none;
+        background-color: black;
+    }
+
+    td {
+        padding-right: 3px;
+
+    }
+
+    img {
+        border-style: outset;
+        border-color: white;
+    }
+
+
+    a.sudoku {
+
+    }
+
+    #sud {
+
+    }
+
+    #change {
+
+    }
+
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 15px;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+    .dropdown {
+        top: 2px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        margin-top: 200px;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown a:hover {
+        background-color: #ddd;
+    }
+
+    .show {
+        display: block;
+    }
+
+    #colorPalette {
+        background-color: lightblue;
+        padding-top: 4px;
+    }
+
+    .rating {
+        width: 300px;
+        margin: 0 auto 1em;
+        font-size: 45px;
+        overflow: hidden;
+    }
+
+    .rating input {
+        float: right;
+        opacity: 0;
+        position: absolute;
+    }
+
+    .rating a,
+    .rating label {
+        float: right;
+        color: white;
+        text-decoration: none;
+        -webkit-transition: color .4s;
+        -moz-transition: color .4s;
+        -o-transition: color .4s;
+        transition: color .4s;
+    }
+
+    .rating label:hover ~ label,
+    .rating input:focus ~ label,
+    .rating label:hover,
+    .rating a:hover,
+    .rating a:hover ~ a,
+    .rating a:focus,
+    .rating a:focus ~ a {
+        color: orange;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .rating2 {
+        direction: rtl;
+    }
+
+    .rating2 a {
+        float: none;
+    }
+
+    #mainContent {
+        display: flex;
+        justify-content: space-between;
+        padding-inline: 40px;
+    }
+
+    #panel {
+        display: flex;
+        justify-content: space-between;
+        background-color: lightblue;
+        max-width: 590px;
+    }
+
+    #operationPanel {
+        padding-top: 10px;
+        margin-left: 60px;
+    }
+
+    #operation {
+        margin-right: 45px;
+        background-color: lightblue;
+        display: flex;
+        align-items: baseline;
+    }
+
+    #hintsPanel {
+        overflow: hidden;
+        padding-top: 10px;
+        margin-right: 25px;
+    }
+
+
+    .howToPlayText {
+        font-weight: bold;
+        cursor: help;
+    }
+
+    #rightSide {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #comment, #stars, #win, #howToPlay, #lose {
+        display: none;
+        padding: 15px;
+        background: darkseagreen;
+        font-size: 13px;
+    }
+
+
+    input[type="submit" i], #submit {
+        appearance: auto;
+        user-select: none;
+        white-space: pre;
+        align-items: flex-start;
+        text-align: center;
+        cursor: default;
+        color: white;
+        background-color: dimgray;
+        box-sizing: border-box;
+        padding: 4px 8px;
+        border-width: 2px;
+        border-style: outset;
+        border-color: rgb(118, 118, 118);
+        border-image: initial;
+    }
+
+    #submit:hover {
+        background-color: darkgray;
+    }
+
+    .myForm {
+        padding: 15px;
+        background: cornsilk;
+        width: 200px
+    }
+
+    .labels {
+        padding: 5px;
+    }
+
+    .inputs {
+        margin-bottom: 5px;
+    }
+
+    #center {
+        display: flex;
+        flex-direction: column;
+        max-width: 590px;
+    }
+
+    .myList {
+        padding: 5px;
+    }
+
+    .submit:hover {
+        background-color: darkgray;
+    }
+
+    .howToPlayButton {
+        padding: 5px;
+        padding-inline: 10px;
+        color: white;
+        background-color: dodgerblue;
+        border: none;
+    }
+
+    .stars {
+        text-decoration: none;
+    }
+
+    #submitComment {
+        padding: 5px;
+        padding-inline: 10px;
+        background-color: dodgerblue;
+        color: white;
+        border: none;
+        max-width: 62px;
+        margin-top: 5px;
+    }
+
+    #myTextarea {
+        max-width: 450px;
+    }
+}

@@ -1,19 +1,18 @@
 package sk.tuke.colorsudoku.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery( name = "Users.getPassword",
-        query = "SELECT u from Users u where u.username=:username")
-@NamedQuery( name = "Users.reset",
-        query = "DELETE FROM Users")
-@NamedQuery( name = "Users.getUsernames",
-        query = "SELECT username FROM Users")
+@NamedQueries({
+        @NamedQuery( name = "Users.getPassword",
+                query = "SELECT u from Users u where u.username=:username"),
+        @NamedQuery( name = "Users.reset",
+                query = "DELETE FROM Users"),
+        @NamedQuery( name = "Users.getUsernames",
+                query = "SELECT username FROM Users")})
+
 public class Users implements Serializable {
     @Id
     @GeneratedValue

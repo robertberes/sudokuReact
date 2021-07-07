@@ -1,23 +1,22 @@
 package sk.tuke.colorsudoku.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery( name = "Rating.getAverageRating",
-        query = "SELECT avg(s.rating) from Rating s where s.game=:game and s.rating > 0")
-@NamedQuery( name = "Rating.resetRating",
-        query = "DELETE FROM Rating ")
-@NamedQuery( name = "Rating.getRating",
-        query = "SELECT r FROM Rating r WHERE r.game=:game and r.player =: player")
-@NamedQuery( name = "Rating.selectRating",
-        query = "SELECT r FROM Rating r WHERE r.game=:game and r.player =: player")
-@NamedQuery( name = "Rating.delRating",
-        query = "delete FROM Rating r WHERE r.game=:game and r.player =: player")
+@NamedQueries({
+        @NamedQuery( name = "Rating.getAverageRating",
+                query = "SELECT avg(s.rating) from Rating s where s.game=:game and s.rating > 0"),
+        @NamedQuery( name = "Rating.resetRating",
+                query = "DELETE FROM Rating "),
+        @NamedQuery( name = "Rating.getRating",
+                query = "SELECT r FROM Rating r WHERE r.game=:game and r.player =: player"),
+        @NamedQuery( name = "Rating.selectRating",
+                query = "SELECT r FROM Rating r WHERE r.game=:game and r.player =: player"),
+        @NamedQuery( name = "Rating.delRating",
+                query = "delete FROM Rating r WHERE r.game=:game and r.player =: player")})
+
 public class Rating implements Serializable{
     @Id
     @GeneratedValue

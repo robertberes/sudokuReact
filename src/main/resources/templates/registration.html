@@ -82,6 +82,7 @@
                 }
 
                 if (error == false) {
+                    addZeroRating(username);
                     document.myForm.submit();
 
                 }
@@ -90,6 +91,30 @@
             return false;
         });
     });
+
+    function addZeroRating(username){
+        let data = {
+            game: "color_sudoku",
+            player: username,
+            rating: 0,
+            ratedOn: Date.now(),
+        };
+        $.ajax({
+            contentType: "application/json",
+            type: "post",
+            url: "http://localhost:8080/api/rating",
+            data: JSON.stringify(data),
+
+            success: function (data) {
+
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+                alert("Failed to send, please try again!");
+            }
+        });
+    }
 </script>
 </body>
 </html>
