@@ -1,16 +1,21 @@
 package sk.tuke.colorsudoku.server.controller;
 
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 import sk.tuke.colorsudoku.entity.Users;
 import sk.tuke.colorsudoku.service.UserService;
 
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.util.Date;
 
-
+@CrossOrigin(origins = "http://localhost:8080")
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
 @RequestMapping("/")
@@ -76,4 +81,7 @@ public class UserController {
     public UserService getUserService() {
         return userService;
     }
+
+
+
 }

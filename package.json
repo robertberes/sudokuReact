@@ -1,11 +1,22 @@
 {
   "requires": true,
   "lockfileVersion": 1,
-  "dependencies": {
-    "fullpage.js": {
-      "version": "3.1.1",
-      "resolved": "https://registry.npmjs.org/fullpage.js/-/fullpage.js-3.1.1.tgz",
-      "integrity": "sha512-pd8rbaDTHxK/eYtfDu7os0CEXjLA5e/3FNe+Mo8RnpntmOayxtyL1D8Y7JzANOCvKLn8zO5aFrPZGo3NhOCwgQ=="
-    }
-  }
+  "dependencies": {},
+  "name": "sudoku_react",
+  "description": "https://youtu.be/GlX23WmCPGU",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertberes/sudokuReact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertberes/sudokuReact/issues"
+  },
+  "homepage": "https://github.com/robertberes/sudokuReact#readme"
 }
